@@ -24,12 +24,22 @@
 - id
 - name
 - description
+- rules
 - start_date
 - end_date
 - winner_team_id
-- created_at
 - min_teams
 - max_teams
+- created_at
+
+## tournament_tabs
+
+- id
+- tournament_id
+- name
+- description
+- created_at
+- updated_at
 
 ## tournament_team
 
