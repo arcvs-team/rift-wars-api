@@ -9,6 +9,7 @@
 
 - id
 - name
+- created_by
 - created_at
 
 ## team_player
@@ -27,6 +28,7 @@
 - end_date
 - winner_team_id
 - created_at
+- min_teams
 - max_teams
 
 ## tournament_team
