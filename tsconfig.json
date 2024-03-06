@@ -7,10 +7,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "node16",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "types": ["node"]
   }
