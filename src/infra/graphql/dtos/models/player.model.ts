@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from 'type-graphql'
 
 @ObjectType()
-export class FetchPlayersModel {
+export class PlayerModel {
   @Field(type => Int)
     id: number
 

@@ -13,7 +13,11 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTimeISO
 
-type FetchPlayersModel {
+type Mutation {
+  createPlayer(data: CreatePlayerInput!): PlayerModel!
+}
+
+type PlayerModel {
   createdAt: DateTimeISO!
 
   """O e-mail cadastrado do jogador"""
@@ -22,10 +26,6 @@ type FetchPlayersModel {
   riotId: String!
 }
 
-type Mutation {
-  createPlayer(data: CreatePlayerInput!): FetchPlayersModel!
-}
-
 type Query {
-  player: [FetchPlayersModel!]!
+  player: [PlayerModel!]!
 }

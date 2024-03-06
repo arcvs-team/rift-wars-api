@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  database:
+    image: mysql:8
+    restart: always
+    container_name: riftwars-db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_DATABASE: rift_wars
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+  api:
+    build: .
+    container_name: riftwars-api
+    ports:
+      - 4000:4000
+    volumes:
+      - .:/usr/src/rift-wars-api
+    links:
+      - database
+    depends_on:
+      - database
+    command: sh -c "/wait; npm ci; npx prisma generate; npx prisma migrate deploy; npm run dev"
+    environment:
+      - WAIT_HOSTS=database:3306
+      - WAIT_TIMEOUT=1000
+      - WAIT_SLEEP_INTERVAL=5
+      - WAIT_HOST_CONNECT_TIMEOUT=300
