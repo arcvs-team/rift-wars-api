@@ -9,10 +9,12 @@ import { type GraphQLSchema } from 'graphql'
 
 export class GraphQLServer {
   private schema: GraphQLSchema
-  private readonly server: ApolloServer
+  private server: ApolloServer
 
-  bootstrap () {
-    this.buildSchema()
+  async bootstrap () {
+    await this.buildSchema()
+    await this.createServer()
+    await this.startServer()
   }
 
   async buildSchema () {
@@ -24,12 +26,14 @@ export class GraphQLServer {
     })
   }
 
-  async startServer () {
-    const server = new ApolloServer({
+  async createServer () {
+    this.server = new ApolloServer({
       schema: this.schema
     })
+  }
 
-    const { url } = await startStandaloneServer(server, {
+  async startServer () {
+    const { url } = await startStandaloneServer(this.server, {
       listen: { port: 4000 }
     })
 
