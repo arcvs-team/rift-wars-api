@@ -6,6 +6,7 @@ import { buildSchema } from 'type-graphql'
 
 import { PlayerResolver } from './resolvers/player.resolver'
 import { type GraphQLSchema } from 'graphql'
+import { TeamResolver } from './resolvers/team.resolver'
 
 export class GraphQLServer {
   private schema: GraphQLSchema
@@ -20,7 +21,8 @@ export class GraphQLServer {
   async buildSchema () {
     this.schema = await buildSchema({
       resolvers: [
-        PlayerResolver
+        PlayerResolver,
+        TeamResolver
       ],
       emitSchemaFile: path.resolve(__dirname, 'schema.gql')
     })

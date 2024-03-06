@@ -19,14 +19,18 @@ model Player {
   riotId    String   @unique @map("riot_id")
   createdAt DateTime @default(now()) @map("created_at")
 
+  ownedTeams Team[]
+
   @@map("players")
 }
 
 model Team {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  riotId    String   @unique @map("riot_id")
+  name      String
+  createdBy Int      @map("created_by")
   createdAt DateTime @default(now()) @map("created_at")
+
+  createdByPlayer Player @relation(fields: [createdBy], references: [id])
 
   @@map("teams")
 }
