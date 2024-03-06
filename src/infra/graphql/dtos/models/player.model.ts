@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from 'type-graphql'
+import { TeamModel } from './team.model'
 
 @ObjectType()
 export class PlayerModel {
@@ -13,4 +14,7 @@ export class PlayerModel {
 
   @Field()
     createdAt: Date
+
+  @Field(() => [TeamModel])
+    ownedTeams: TeamModel[]
 }

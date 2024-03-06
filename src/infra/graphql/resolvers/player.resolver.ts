@@ -1,9 +1,10 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { prisma } from '../../database/client'
 import { CreatePlayerInput } from '../dtos/inputs/create-player.input'
 import { PlayerModel } from '../dtos/models/player.model'
+import { TeamModel } from '../dtos/models/team.model'
 
-@Resolver()
+@Resolver(PlayerModel)
 export class PlayerResolver {
   @Query(() => [PlayerModel])
   async player () {
@@ -22,5 +23,16 @@ export class PlayerResolver {
     })
 
     return player
+  }
+
+  @FieldResolver(() => [TeamModel])
+  async ownedTeams (@Root() player: PlayerModel) {
+    const teams = await prisma.team.findMany({
+      where: {
+        createdBy: player.id
+      }
+    })
+
+    return teams
   }
 }
