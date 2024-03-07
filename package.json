@@ -6,9 +6,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "npx ts-node-dev --respawn --transpile-only src/infra/main.ts",
+    "dev": "npx ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/infra/main.ts",
     "db:generate": "npx drizzle-kit generate:mysql",
-    "db:migrate": "npx ts-node-dev --respawn --transpile-only src/infra/database/drizzle/migrate.ts",
+    "db:migrate": "npx ts-node-dev src/infra/database/drizzle/migrate.ts",
     "prepare": "husky"
   },
   "keywords": [],
@@ -36,6 +36,7 @@
     "drizzle-orm": "^0.29.5",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.5",
+    "inversify": "^6.0.2",
     "mysql2": "^3.9.2",
     "reflect-metadata": "^0.2.1",
     "type-graphql": "^2.0.0-beta.6"

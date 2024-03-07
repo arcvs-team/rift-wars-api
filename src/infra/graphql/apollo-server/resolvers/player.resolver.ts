@@ -2,9 +2,17 @@ import { Arg, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphq
 import { CreatePlayerInput } from '../dtos/inputs/create-player.input'
 import { PlayerModel } from '../dtos/models/player.model'
 import { TeamModel } from '../dtos/models/team.model'
+import { CreatePlayerUseCase } from '../../../../domain/application/use-cases/create-player'
+import { container } from '../../../container/inversify'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
+  constructor (
+    private readonly createPlayerUseCase: CreatePlayerUseCase
+  ) {
+    this.createPlayerUseCase = container.get('CreatePlayerUseCase')
+  }
+
   @Query(() => [PlayerModel])
   async player () {
     const players = [] as PlayerModel[]
@@ -14,13 +22,10 @@ export class PlayerResolver {
 
   @Mutation(() => PlayerModel)
   async createPlayer (@Arg('data') createPlayerInput: CreatePlayerInput) {
-    const player: PlayerModel = {
-      id: 1,
+    const player = await this.createPlayerUseCase.execute({
       email: createPlayerInput.email,
-      riotId: createPlayerInput.riotId,
-      createdAt: new Date(),
-      ownedTeams: []
-    }
+      riotId: createPlayerInput.riotId
+    })
 
     return player
   }
