@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
     "rootDirs": ["src"],
+    "baseUrl": "./",
     "outDir": "dist",
     "target": "ES2022",
     "lib": ["ES2023"],
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "node16",

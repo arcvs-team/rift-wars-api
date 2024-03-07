@@ -2,8 +2,8 @@ import { Arg, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphq
 import { CreatePlayerInput } from '../dtos/inputs/create-player.input'
 import { PlayerModel } from '../dtos/models/player.model'
 import { TeamModel } from '../dtos/models/team.model'
-import { CreatePlayerUseCase } from '../../../../domain/application/use-cases/create-player'
-import { container } from '../../../container/inversify'
+import { container } from '@/infra/container/inversify'
+import { CreatePlayerUseCase } from '@/domain/application/use-cases/create-player'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
