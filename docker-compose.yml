@@ -8,7 +8,7 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: docker
-      MYSQL_DATABASE: rift_wars
+      MYSQL_DATABASE: riftwars
       MYSQL_USER: docker
       MYSQL_PASSWORD: docker
   api:
@@ -22,7 +22,7 @@ services:
       - database
     depends_on:
       - database
-    command: sh -c "/wait; npm ci; npx prisma generate; npx prisma migrate deploy; npm run dev"
+    command: sh -c "/wait; npm ci; npm run db:migrate; npm run dev"
     environment:
       - WAIT_HOSTS=database:3306
       - WAIT_TIMEOUT=1000

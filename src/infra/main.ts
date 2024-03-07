@@ -1,4 +1,4 @@
-import { GraphQLServer } from './graphql/graphql-server'
+import { GraphQLServer } from './graphql/apollo-server/graphql-server'
 
 async function bootstrap () {
   const graphqlServer = new GraphQLServer()
