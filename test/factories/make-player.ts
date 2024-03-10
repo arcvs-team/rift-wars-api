@@ -1,0 +1,18 @@
+import { Player, type PlayerAttributes } from '@/domain/enterprise/player'
+import { faker } from '@faker-js/faker'
+
+export function makePlayer (
+  override: Partial<PlayerAttributes> = {},
+  id?: number
+) {
+  const player = Player.create(
+    {
+      riotId: `${faker.internet.userName().replace(/[^a-zA-Z0-9]/g, '')}#${faker.word.sample({ length: 4 })}`,
+      email: faker.internet.email(),
+      ...override
+    },
+    id
+  )
+
+  return player
+}
