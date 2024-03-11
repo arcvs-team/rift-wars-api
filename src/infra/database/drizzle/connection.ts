@@ -1,19 +1,7 @@
 import 'dotenv/config'
-import { drizzle, type MySql2Database } from 'drizzle-orm/mysql2'
-import mysql from 'mysql2/promise'
+import { drizzle } from 'drizzle-orm/postgres-js'
+import postgres from 'postgres'
 
-let connection: mysql.Connection
-let db: MySql2Database
+const queryClient = postgres(String(process.env.DATABASE_URL))
 
-(async () => {
-  connection = await mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME
-  })
-
-  db = drizzle(connection)
-})()
-
-export { connection, db }
+export const db = drizzle(queryClient)

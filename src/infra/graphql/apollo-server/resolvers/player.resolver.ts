@@ -22,12 +22,20 @@ export class PlayerResolver {
 
   @Mutation(() => PlayerModel)
   async createPlayer (@Arg('data') createPlayerInput: CreatePlayerInput) {
-    const player = await this.createPlayerUseCase.execute({
+    const result = await this.createPlayerUseCase.execute({
       email: createPlayerInput.email,
       riotId: createPlayerInput.riotId
     })
 
-    return player
+    if (result.isRight()) {
+      return {
+        player: result.value.player
+      }
+    }
+
+    return {
+      error: result.value.message
+    }
   }
 
   @FieldResolver(() => [TeamModel])

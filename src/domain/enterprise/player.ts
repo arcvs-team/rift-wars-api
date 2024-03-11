@@ -1,3 +1,4 @@
+import { type UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Entity } from '../../core/entities/entity'
 import { type Optional } from '../../core/types/optional'
 
@@ -27,7 +28,7 @@ export class Player extends Entity<PlayerAttributes> {
 
   static create (
     attributes: Optional<PlayerAttributes, 'createdAt' | 'updatedAt'>,
-    id?: number
+    id?: UniqueEntityID
   ) {
     const player = new Player(
       {

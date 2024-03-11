@@ -1,16 +1,15 @@
 version: '3.8'
 services:
   database:
-    image: mysql:8
+    image: postgres:16-alpine
     restart: always
     container_name: riftwars-db
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
-      MYSQL_ROOT_PASSWORD: docker
-      MYSQL_DATABASE: riftwars
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: riftwars
   api:
     build: .
     container_name: riftwars-api
@@ -24,7 +23,7 @@ services:
       - database
     command: sh -c "/wait; npm ci; npm run db:migrate; npm run dev"
     environment:
-      - WAIT_HOSTS=database:3306
+      - WAIT_HOSTS=database:5432
       - WAIT_TIMEOUT=1000
       - WAIT_SLEEP_INTERVAL=5
       - WAIT_HOST_CONNECT_TIMEOUT=300

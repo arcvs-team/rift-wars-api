@@ -29,14 +29,8 @@ export class DrizzlePlayerRepository implements PlayerRepository {
     return DrizzlePlayerMapper.toDomain(result[0])
   }
 
-  async create (player: Player): Promise<Player> {
-    const result = await db.insert(players).values({
-      email: player.email,
-      riotId: player.riotId
-    })
-
-    player.id = result[0].insertId
-
-    return player
+  async create (player: Player): Promise<void> {
+    const data = DrizzlePlayerMapper.toPersistence(player)
+    await db.insert(players).values(data)
   }
 }

@@ -1,12 +1,12 @@
 {
   "version": "5",
-  "dialect": "mysql",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1709822625865,
-      "tag": "0000_ambiguous_steve_rogers",
+      "when": 1710185775951,
+      "tag": "0000_aspiring_norman_osborn",
       "breakpoints": true
     }
   ]

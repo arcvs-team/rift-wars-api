@@ -1,25 +1,18 @@
 import 'dotenv/config'
-import { migrate } from 'drizzle-orm/mysql2/migrator'
-import { drizzle } from 'drizzle-orm/mysql2'
-import mysql from 'mysql2/promise'
+import { drizzle } from 'drizzle-orm/postgres-js'
+import { migrate } from 'drizzle-orm/postgres-js/migrator'
+import postgres from 'postgres'
 
 async function run () {
-  const connection = await mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME
-  })
-
-  const db = drizzle(connection)
+  const migrationClient = postgres(String(process.env.DATABASE_URL), { max: 1 })
 
   try {
-    await migrate(db, {
+    await migrate(drizzle(migrationClient), {
       migrationsFolder: 'src/infra/database/drizzle/migrations'
     })
 
-    await connection.end()
     console.log('Migration successfully applied!')
+    await migrationClient.end()
   } catch (error) {
     console.error(error)
     process.exit(1)

@@ -1,76 +1,82 @@
-import { sql } from 'drizzle-orm'
-import { mysqlTable, uniqueIndex, varchar, datetime, bigint, longtext, int, mysqlEnum } from 'drizzle-orm/mysql-core'
+import { text, integer, uniqueIndex, pgTable, timestamp, varchar, uuid } from 'drizzle-orm/pg-core'
 
-export const players = mysqlTable('players', {
-  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
+export const players = pgTable('players', {
+  id: uuid('id').primaryKey(),
   email: varchar('email', { length: 256 }).notNull(),
   riotId: varchar('riot_id', { length: 256 }).notNull(),
-  createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: datetime('updated_at').default(sql`CURRENT_TIMESTAMP`)
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 }, (players) => ({
   emailIndex: uniqueIndex('email_idx').on(players.email),
   riotIdIndex: uniqueIndex('riot_id_idx').on(players.riotId)
 }))
+export type DrizzlePlayer = typeof players.$inferSelect
 
-export const teams = mysqlTable('teams', {
-  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
+export const teams = pgTable('teams', {
+  id: uuid('id').primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
-  createdBy: bigint('created_by', { mode: 'number' }).notNull().references(() => players.id),
-  createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: datetime('updated_at').default(sql`CURRENT_TIMESTAMP`)
+  createdBy: uuid('created_by').notNull().references(() => players.id),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 })
+export type DrizzleTeam = typeof teams.$inferSelect
 
-export const teamPlayers = mysqlTable('team_players', {
-  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
-  playerId: bigint('player_id', { mode: 'number' }).notNull().references(() => players.id),
-  teamId: bigint('team_id', { mode: 'number' }).notNull().references(() => teams.id),
-  joinedAt: datetime('joined_at').default(sql`CURRENT_TIMESTAMP`),
-  removedAt: datetime('removed_at'),
-  removedBy: bigint('removed_by', { mode: 'number' }).references(() => players.id)
+export const teamPlayers = pgTable('team_players', {
+  id: uuid('id').primaryKey(),
+  playerId: uuid('player_id').notNull().references(() => players.id),
+  teamId: uuid('team_id').notNull().references(() => teams.id),
+  joinedAt: timestamp('joined_at').defaultNow(),
+  removedAt: timestamp('removed_at'),
+  removedBy: uuid('removed_by').references(() => players.id)
 })
+export type DrizzleTeamPlayer = typeof teamPlayers.$inferSelect
 
-export const tournaments = mysqlTable('tournaments', {
-  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
+export const tournaments = pgTable('tournaments', {
+  id: uuid('id').primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
-  description: longtext('description'),
-  rules: longtext('description'),
-  startDate: datetime('start_date'),
-  endDate: datetime('end_date'),
-  winnerTeamId: bigint('winner_team_id', { mode: 'number' }).references(() => teams.id),
-  minTeams: int('min_teams'),
-  maxTeams: int('max_teams'),
-  status: mysqlEnum('status', ['draft', 'public', 'finished']).default('draft'),
-  createdBy: bigint('created_by', { mode: 'number' }).notNull().references(() => players.id),
-  createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: datetime('updated_at').default(sql`CURRENT_TIMESTAMP`)
+  description: text('description'),
+  rules: text('description'),
+  startDate: timestamp('start_date'),
+  endDate: timestamp('end_date'),
+  winnerTeamId: uuid('winner_team_id').references(() => teams.id),
+  minTeams: integer('min_teams'),
+  maxTeams: integer('max_teams'),
+  status: text('status', { enum: ['draft', 'public', 'finished'] }),
+  createdBy: uuid('created_by').notNull().references(() => players.id),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 })
+export type DrizzleTournament = typeof tournaments.$inferSelect
 
-export const tournamentTabs = mysqlTable('tournament_tabs', {
-  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
-  tournamentId: bigint('tournament_id', { mode: 'number' }).notNull().references(() => tournaments.id),
+export const tournamentTabs = pgTable('tournament_tabs', {
+  id: uuid('id').primaryKey(),
+  tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
   name: varchar('name', { length: 256 }).notNull(),
-  description: longtext('description').notNull(),
-  createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: datetime('updated_at').default(sql`CURRENT_TIMESTAMP`)
+  description: text('description').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 })
+export type DrizzleTournamentTab = typeof tournamentTabs.$inferSelect
 
-export const tournamentTeams = mysqlTable('tournament_teams', {
-  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
-  tournamentId: bigint('tournament_id', { mode: 'number' }).notNull().references(() => tournaments.id),
-  teamId: bigint('team_id', { mode: 'number' }).notNull().references(() => teams.id),
-  joinedAt: datetime('joined_at').default(sql`CURRENT_TIMESTAMP`),
-  withdrawAt: datetime('withdraw_at')
+export const tournamentTeams = pgTable('tournament_teams', {
+  id: uuid('id').primaryKey(),
+  tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
+  teamId: uuid('team_id').notNull().references(() => teams.id),
+  joinedAt: timestamp('joined_at').defaultNow(),
+  withdrawAt: timestamp('withdraw_at')
 })
+export type DrizzleTournamentTeam = typeof tournamentTeams.$inferSelect
 
-export const matches = mysqlTable('matches', {
-  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
-  tournamentId: bigint('tournament_id', { mode: 'number' }).notNull().references(() => tournaments.id),
-  blueTeamId: bigint('blue_team_id', { mode: 'number' }).notNull().references(() => teams.id),
-  redTeamId: bigint('red_team_id', { mode: 'number' }).notNull().references(() => teams.id),
-  blueTeamScore: int('blue_team_score'),
-  redTeamScore: int('red_team_score'),
-  riotMatchId: bigint('riot_match_id', { mode: 'number' }),
-  winnerTeamId: bigint('winner_team_id', { mode: 'number' }).references(() => teams.id),
-  winCondition: mysqlEnum('win_condition', ['normal', 'wo', 'ff']),
-  createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`)
+export const matches = pgTable('matches', {
+  id: uuid('id').primaryKey(),
+  tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
+  blueTeamId: uuid('blue_team_id').notNull().references(() => teams.id),
+  redTeamId: uuid('red_team_id').notNull().references(() => teams.id),
+  blueTeamScore: integer('blue_team_score'),
+  redTeamScore: integer('red_team_score'),
+  riotMatchId: uuid('riot_match_id'),
+  winnerTeamId: uuid('winner_team_id').references(() => teams.id),
+  winCondition: text('win_condition', { enum: ['normal', 'wo', 'ff'] }),
+  createdAt: timestamp('created_at').defaultNow()
 })
+export type DrizzleMatch = typeof matches.$inferSelect

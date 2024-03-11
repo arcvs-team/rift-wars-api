@@ -33,10 +33,10 @@ export class CreatePlayerUseCase {
       riotId
     })
 
-    const createdPlayer = await this.playerRepository.create(player)
+    await this.playerRepository.create(player)
 
     return right({
-      player: createdPlayer
+      player
     })
   }
 }

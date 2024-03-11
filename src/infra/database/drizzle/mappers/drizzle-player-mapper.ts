@@ -1,12 +1,6 @@
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Player } from '../../../../domain/enterprise/player'
-
-interface DrizzlePlayer {
-  id: number
-  email: string
-  riotId: string
-  createdAt: Date | null
-  updatedAt: Date | null
-}
+import { type DrizzlePlayer } from '../schema'
 
 export class DrizzlePlayerMapper {
   static toDomain (raw: DrizzlePlayer): Player {
@@ -14,7 +8,18 @@ export class DrizzlePlayerMapper {
       {
         email: raw.email,
         riotId: raw.riotId
-      }
+      },
+      new UniqueEntityID(raw.id)
     )
+  }
+
+  static toPersistence (player: Player): DrizzlePlayer {
+    return {
+      id: player.id.toString(),
+      email: player.email,
+      riotId: player.riotId,
+      createdAt: player.createdAt ?? null,
+      updatedAt: player.updatedAt ?? null
+    }
   }
 }

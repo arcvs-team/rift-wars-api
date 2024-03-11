@@ -18,9 +18,7 @@ export class InMemoryPlayerRepository implements PlayerRepository {
     return player
   }
 
-  async create (player: Player): Promise<Player> {
-    player.id = this.items.length + 1
+  async create (player: Player): Promise<void> {
     this.items.push(player)
-    return player
   }
 }

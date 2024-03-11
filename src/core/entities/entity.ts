@@ -1,18 +1,16 @@
+import { UniqueEntityID } from './unique-entity-id'
+
 export abstract class Entity<Attributes> {
-  private _id?: number | undefined
+  private readonly _id: UniqueEntityID
   protected attributes: Attributes
 
-  get id (): number | undefined {
+  get id () {
     return this._id
   }
 
-  set id (id: number) {
-    this._id = id
-  }
-
-  protected constructor (attributes: Attributes, id?: number) {
+  protected constructor (attributes: Attributes, id?: UniqueEntityID) {
     this.attributes = attributes
-    this._id = id ?? undefined
+    this._id = id ?? new UniqueEntityID()
   }
 
   public equals (entity: Entity<unknown>) {
