@@ -4,6 +4,7 @@ import { PlayerModel } from '../dtos/models/player.model'
 import { TeamModel } from '../dtos/models/team.model'
 import { container } from '@/infra/container/inversify'
 import { CreatePlayerUseCase } from '@/domain/application/use-cases/create-player'
+import { ApolloPlayerMapper } from '../mappers/apollo-player-mapper'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
@@ -28,9 +29,7 @@ export class PlayerResolver {
     })
 
     if (result.isRight()) {
-      return {
-        player: result.value.player
-      }
+      return ApolloPlayerMapper.toApollo(result.value.player)
     }
 
     return {

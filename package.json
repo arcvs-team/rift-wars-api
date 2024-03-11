@@ -6,7 +6,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "npx ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/infra/main.ts",
+    "dev": "npx ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn --exit-child src/infra/main.ts",
     "db:generate": "npx drizzle-kit generate:pg",
     "db:migrate": "npx ts-node-dev src/infra/database/drizzle/migrate.ts",
     "test": "npx vitest run",

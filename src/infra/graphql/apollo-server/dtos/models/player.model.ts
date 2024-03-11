@@ -1,10 +1,10 @@
-import { Field, Int, ObjectType } from 'type-graphql'
+import { Field, ObjectType } from 'type-graphql'
 import { TeamModel } from './team.model'
 
 @ObjectType()
 export class PlayerModel {
-  @Field(type => Int)
-    id: number
+  @Field()
+    id: string
 
   @Field()
     email: string
