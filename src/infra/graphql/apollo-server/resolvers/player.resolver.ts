@@ -5,6 +5,7 @@ import { TeamModel } from '../dtos/models/team.model'
 import { container } from '@/infra/container/inversify'
 import { CreatePlayerUseCase } from '@/domain/application/use-cases/create-player'
 import { ApolloPlayerMapper } from '../mappers/apollo-player-mapper'
+import { GraphQLError } from 'graphql'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
@@ -32,9 +33,7 @@ export class PlayerResolver {
       return ApolloPlayerMapper.toApollo(result.value.player)
     }
 
-    return {
-      error: result.value.message
-    }
+    throw new GraphQLError(result.value.message)
   }
 
   @FieldResolver(() => [TeamModel])
