@@ -6,20 +6,27 @@ import { container } from '@/infra/container/inversify'
 import { CreatePlayerUseCase } from '@/domain/application/use-cases/create-player'
 import { ApolloPlayerMapper } from '../mappers/apollo-player-mapper'
 import { GraphQLError } from 'graphql'
+import { FetchPlayersUseCase } from '@/domain/application/use-cases/fetch-players'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
   constructor (
-    private readonly createPlayerUseCase: CreatePlayerUseCase
+    private readonly createPlayerUseCase: CreatePlayerUseCase,
+    private readonly fetchPlayersUseCase: FetchPlayersUseCase
   ) {
     this.createPlayerUseCase = container.get('CreatePlayerUseCase')
+    this.fetchPlayersUseCase = container.get('FetchPlayersUseCase')
   }
 
   @Query(() => [PlayerModel])
   async player () {
-    const players = [] as PlayerModel[]
+    const result = await this.fetchPlayersUseCase.execute()
 
-    return players
+    if (result.isRight()) {
+      return result.value.players.map(ApolloPlayerMapper.toApollo)
+    }
+
+    throw new GraphQLError('Internal server error.')
   }
 
   @Mutation(() => PlayerModel)
