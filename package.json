@@ -10,7 +10,7 @@
     "db:generate": "npx drizzle-kit generate:pg",
     "db:migrate": "npx ts-node-dev src/infra/database/drizzle/migrate.ts",
     "test": "npx vitest run",
-    "prepare": "husky"
+    "prepare": "npx husky"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
     "@faker-js/faker": "^8.4.1",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.11.25",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "drizzle-kit": "^0.20.14",
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.1",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.29.5",
     "graphql": "^16.8.1",

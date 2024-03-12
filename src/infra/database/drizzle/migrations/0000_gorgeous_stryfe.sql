@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS "players" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"email" varchar(256) NOT NULL,
 	"riot_id" varchar(256) NOT NULL,
+	"password" varchar(256) NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
 );

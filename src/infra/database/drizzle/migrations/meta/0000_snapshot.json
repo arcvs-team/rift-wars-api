@@ -1,5 +1,5 @@
 {
-  "id": "03cdfb87-4272-45e7-ac00-929d7e81929b",
+  "id": "b42900b3-88df-4927-b174-da293dc7f713",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -146,6 +146,12 @@
         },
         "riot_id": {
           "name": "riot_id",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true

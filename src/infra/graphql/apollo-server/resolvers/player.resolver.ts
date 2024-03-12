@@ -37,7 +37,8 @@ export class PlayerResolver {
   async createPlayer (@Arg('data') createPlayerInput: CreatePlayerInput) {
     const result = await this.createPlayerUseCase.execute({
       email: createPlayerInput.email,
-      riotId: createPlayerInput.riotId
+      riotId: createPlayerInput.riotId,
+      password: createPlayerInput.password
     })
 
     if (result.isRight()) {

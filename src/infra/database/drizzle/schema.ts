@@ -4,6 +4,7 @@ export const players = pgTable('players', {
   id: uuid('id').primaryKey(),
   email: varchar('email', { length: 256 }).notNull(),
   riotId: varchar('riot_id', { length: 256 }).notNull(),
+  password: varchar('password', { length: 256 }).notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow()
 }, (players) => ({

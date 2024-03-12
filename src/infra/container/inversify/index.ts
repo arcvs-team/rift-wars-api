@@ -4,6 +4,7 @@ import { DrizzleTeamRepository } from '@/infra/database/drizzle/repositories/dri
 import { CreatePlayerUseCase } from '../../../domain/application/use-cases/create-player'
 import { FetchPlayersUseCase } from '@/domain/application/use-cases/fetch-players'
 import { FetchPlayerOwnedTeamsUseCase } from '@/domain/application/use-cases/fetch-player-owned-teams'
+import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher'
 
 const container = new Container()
 
@@ -13,5 +14,8 @@ container.bind('TeamRepository').to(DrizzleTeamRepository)
 container.bind('CreatePlayerUseCase').to(CreatePlayerUseCase)
 container.bind('FetchPlayersUseCase').to(FetchPlayersUseCase)
 container.bind('FetchPlayerOwnedTeamsUseCase').to(FetchPlayerOwnedTeamsUseCase)
+
+container.bind('HashComparer').to(BcryptHasher)
+container.bind('HashGenerator').to(BcryptHasher)
 
 export { container }

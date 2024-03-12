@@ -7,4 +7,7 @@ export class CreatePlayerInput {
 
   @Field()
     riotId: string
+
+  @Field()
+    password: string
 }

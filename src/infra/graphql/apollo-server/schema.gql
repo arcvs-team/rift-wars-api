@@ -5,6 +5,7 @@
 
 input CreatePlayerInput {
   email: String!
+  password: String!
   riotId: String!
 }
 
