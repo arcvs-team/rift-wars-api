@@ -32,6 +32,6 @@ type Query {
 
 type TeamModel {
   createdAt: DateTimeISO!
-  id: Int!
+  id: String!
   name: String!
 }

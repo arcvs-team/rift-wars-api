@@ -7,7 +7,9 @@ export class DrizzlePlayerMapper {
     return Player.create(
       {
         email: raw.email,
-        riotId: raw.riotId
+        riotId: raw.riotId,
+        createdAt: raw.createdAt ?? undefined,
+        updatedAt: raw.updatedAt ?? undefined
       },
       new UniqueEntityID(raw.id)
     )

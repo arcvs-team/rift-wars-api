@@ -7,15 +7,19 @@ import { CreatePlayerUseCase } from '@/domain/application/use-cases/create-playe
 import { ApolloPlayerMapper } from '../mappers/apollo-player-mapper'
 import { GraphQLError } from 'graphql'
 import { FetchPlayersUseCase } from '@/domain/application/use-cases/fetch-players'
+import { FetchPlayerOwnedTeamsUseCase } from '@/domain/application/use-cases/fetch-player-owned-teams'
+import { ApolloTeamMapper } from '../mappers/apollo-team-mapper'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
   constructor (
     private readonly createPlayerUseCase: CreatePlayerUseCase,
-    private readonly fetchPlayersUseCase: FetchPlayersUseCase
+    private readonly fetchPlayersUseCase: FetchPlayersUseCase,
+    private readonly fetchPlayerOwnedTeamsUseCase: FetchPlayerOwnedTeamsUseCase
   ) {
     this.createPlayerUseCase = container.get('CreatePlayerUseCase')
     this.fetchPlayersUseCase = container.get('FetchPlayersUseCase')
+    this.fetchPlayerOwnedTeamsUseCase = container.get('FetchPlayerOwnedTeamsUseCase')
   }
 
   @Query(() => [PlayerModel])
@@ -40,13 +44,17 @@ export class PlayerResolver {
       return ApolloPlayerMapper.toApollo(result.value.player)
     }
 
-    throw new GraphQLError(result.value.message)
+    throw new GraphQLError(result.value.message ?? 'Internal server error.')
   }
 
   @FieldResolver(() => [TeamModel])
   async ownedTeams (@Root() player: PlayerModel) {
-    const teams = [] as TeamModel[]
+    const result = await this.fetchPlayerOwnedTeamsUseCase.execute({ playerId: player.id })
 
-    return teams
+    if (result.isRight()) {
+      return result.value.teams.map(ApolloTeamMapper.toApollo)
+    }
+
+    throw new GraphQLError('Internal server error.')
   }
 }
