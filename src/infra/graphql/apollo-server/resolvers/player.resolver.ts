@@ -9,17 +9,38 @@ import { GraphQLError } from 'graphql'
 import { FetchPlayersUseCase } from '@/domain/application/use-cases/fetch-players'
 import { FetchPlayerOwnedTeamsUseCase } from '@/domain/application/use-cases/fetch-player-owned-teams'
 import { ApolloTeamMapper } from '../mappers/apollo-team-mapper'
+import { AccessTokenModel } from '../dtos/models/access-token.model'
+import { AuthenticateUseCase } from '@/domain/application/use-cases/authenticate'
+import { AuthenticateInput } from '../dtos/inputs/authenticate.input'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
   constructor (
     private readonly createPlayerUseCase: CreatePlayerUseCase,
     private readonly fetchPlayersUseCase: FetchPlayersUseCase,
-    private readonly fetchPlayerOwnedTeamsUseCase: FetchPlayerOwnedTeamsUseCase
+    private readonly fetchPlayerOwnedTeamsUseCase: FetchPlayerOwnedTeamsUseCase,
+    private readonly authenticate: AuthenticateUseCase
   ) {
     this.createPlayerUseCase = container.get('CreatePlayerUseCase')
     this.fetchPlayersUseCase = container.get('FetchPlayersUseCase')
     this.fetchPlayerOwnedTeamsUseCase = container.get('FetchPlayerOwnedTeamsUseCase')
+    this.authenticate = container.get('AuthenticateUseCase')
+  }
+
+  @Query(() => AccessTokenModel)
+  async auth (@Arg('data') authenticateInput: AuthenticateInput) {
+    const result = await this.authenticate.execute({
+      email: authenticateInput.email,
+      password: authenticateInput.password
+    })
+
+    if (result.isRight()) {
+      return {
+        accessToken: result.value.accessToken
+      }
+    }
+
+    throw new GraphQLError(result.value.message ?? 'Internal server error.')
   }
 
   @Query(() => [PlayerModel])

@@ -3,6 +3,15 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AccessTokenModel {
+  accessToken: String!
+}
+
+input AuthenticateInput {
+  email: String!
+  password: String!
+}
+
 input CreatePlayerInput {
   email: String!
   password: String!
@@ -27,6 +36,7 @@ type PlayerModel {
 }
 
 type Query {
+  auth(data: AuthenticateInput!): AccessTokenModel!
   player: [PlayerModel!]!
   team: [TeamModel!]!
 }

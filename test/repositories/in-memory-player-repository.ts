@@ -8,6 +8,16 @@ export class InMemoryPlayerRepository implements PlayerRepository {
     return this.items
   }
 
+  async findByEmail (email: string): Promise<Player | null> {
+    const player = this.items.find(player => player.email === email)
+
+    if (player === undefined) {
+      return null
+    }
+
+    return player
+  }
+
   async findByEmailOrRiotId (email: string, riotId: string): Promise<Player | null> {
     const player = this.items.find(player => player.email === email || player.riotId === riotId)
 

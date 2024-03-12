@@ -14,6 +14,14 @@ export class DrizzlePlayerRepository implements PlayerRepository {
     return result.map(DrizzlePlayerMapper.toDomain)
   }
 
+  async findByEmail (email: string): Promise<Player | null> {
+    const result = await db.select().from(players).where(
+      eq(players.email, email)
+    ).limit(1)
+
+    return DrizzlePlayerMapper.toDomain(result[0])
+  }
+
   async findByEmailOrRiotId (email: string, riotId: string): Promise<Player | null> {
     const result = await db.select().from(players).where(
       or(
