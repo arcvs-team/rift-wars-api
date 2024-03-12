@@ -2,9 +2,6 @@
   "name": "rift-wars-api",
   "version": "1.0.0",
   "description": "",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
     "dev": "npx ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn --exit-child src/infra/main.ts",
     "db:generate": "npx drizzle-kit generate:pg",
@@ -20,6 +17,7 @@
     "@commitlint/config-conventional": "^19.0.3",
     "@faker-js/faker": "^8.4.1",
     "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.25",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "drizzle-kit": "^0.20.14",
@@ -43,6 +41,7 @@
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.5",
     "inversify": "^6.0.2",
+    "jsonwebtoken": "^9.0.2",
     "postgres": "^3.4.3",
     "reflect-metadata": "^0.2.1",
     "type-graphql": "^2.0.0-beta.6"
