@@ -36,7 +36,7 @@ export const tournaments = pgTable('tournaments', {
   id: uuid('id').primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
   description: text('description'),
-  rules: text('description'),
+  rules: text('rules'),
   startDate: timestamp('start_date'),
   endDate: timestamp('end_date'),
   winnerTeamId: uuid('winner_team_id').references(() => teams.id),

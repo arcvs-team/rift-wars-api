@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS "tournaments" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"name" varchar(256) NOT NULL,
 	"description" text,
+	"rules" text,
 	"start_date" timestamp,
 	"end_date" timestamp,
 	"winner_team_id" uuid,

@@ -5,21 +5,21 @@ export class CreateTournamentInput {
   @Field()
     name: string
 
-  @Field()
-    description?: string
+  @Field({ nullable: true })
+    description: string
 
-  @Field()
-    rules?: string
+  @Field({ nullable: true })
+    rules: string
 
-  @Field()
-    startDate?: Date
+  @Field({ nullable: true })
+    startDate: Date
 
-  @Field()
-    endDate?: Date
+  @Field({ nullable: true })
+    endDate: Date
 
-  @Field()
-    minTeams?: number
+  @Field({ nullable: true })
+    minTeams: number
 
-  @Field()
-    maxTeams?: number
+  @Field({ nullable: true })
+    maxTeams: number
 }

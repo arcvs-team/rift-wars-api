@@ -4,8 +4,8 @@ export class ApolloTournamentMapper {
   static toApollo (tournament: Tournament) {
     return {
       id: tournament.id.toString(),
-      description: tournament.description,
       name: tournament.name,
+      description: tournament.description,
       rules: tournament.rules,
       startDate: tournament.startDate,
       endDate: tournament.endDate,
