@@ -16,7 +16,7 @@ The Rift Wars API was created to enable all interactivity of the web app. It was
 
 ## Local development
 
-After cloning the repository, you need to have <a href="https://docs.docker.com/desktop/">docker</a> installed, preferably Docker Desktop.
+After cloning the repository, you need to have <a href="https://docs.docker.com/desktop/">Docker</a> installed, preferably Docker Desktop.
 
 Once you have Docker running, you can start by creating the `.env` file based on the `.env.example`:
 
