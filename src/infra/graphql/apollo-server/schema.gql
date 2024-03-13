@@ -39,10 +39,26 @@ type Query {
   auth(data: AuthenticateInput!): AccessTokenModel!
   player: [PlayerModel!]!
   team: [TeamModel!]!
+  tournament: [TournamentModel!]!
 }
 
 type TeamModel {
   createdAt: DateTimeISO!
   id: String!
   name: String!
+}
+
+type TournamentModel {
+  createdAt: String!
+  createdBy: String!
+  description: String
+  endDate: DateTimeISO
+  id: String!
+  maxTeams: Float
+  minTeams: Float
+  name: String!
+  rules: String
+  startDate: DateTimeISO
+  status: String!
+  winnerTeamId: String
 }

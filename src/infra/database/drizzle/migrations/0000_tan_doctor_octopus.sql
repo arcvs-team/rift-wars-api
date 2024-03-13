@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS "tournaments" (
 	"winner_team_id" uuid,
 	"min_teams" integer,
 	"max_teams" integer,
-	"status" text,
+	"status" text DEFAULT 'draft',
 	"created_by" uuid NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()

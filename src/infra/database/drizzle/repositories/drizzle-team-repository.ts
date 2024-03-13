@@ -15,7 +15,6 @@ export class DrizzleTeamRepository implements TeamRepository {
 
   async findMany (): Promise<Team[]> {
     const result = await db.select().from(teams)
-
     return result.map(DrizzleTeamMapper.toDomain)
   }
 

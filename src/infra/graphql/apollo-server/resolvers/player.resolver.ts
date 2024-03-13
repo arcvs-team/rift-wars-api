@@ -3,24 +3,24 @@ import { CreatePlayerInput } from '../dtos/inputs/create-player.input'
 import { PlayerModel } from '../dtos/models/player.model'
 import { TeamModel } from '../dtos/models/team.model'
 import { container } from '@/infra/container/inversify'
-import { CreatePlayerUseCase } from '@/domain/application/use-cases/create-player'
+import { type CreatePlayerUseCase } from '@/domain/application/use-cases/create-player'
 import { ApolloPlayerMapper } from '../mappers/apollo-player-mapper'
 import { GraphQLError } from 'graphql'
-import { FetchPlayersUseCase } from '@/domain/application/use-cases/fetch-players'
-import { FetchPlayerOwnedTeamsUseCase } from '@/domain/application/use-cases/fetch-player-owned-teams'
+import { type FetchPlayersUseCase } from '@/domain/application/use-cases/fetch-players'
+import { type FetchPlayerOwnedTeamsUseCase } from '@/domain/application/use-cases/fetch-player-owned-teams'
 import { ApolloTeamMapper } from '../mappers/apollo-team-mapper'
 import { AccessTokenModel } from '../dtos/models/access-token.model'
-import { AuthenticateUseCase } from '@/domain/application/use-cases/authenticate'
+import { type AuthenticateUseCase } from '@/domain/application/use-cases/authenticate'
 import { AuthenticateInput } from '../dtos/inputs/authenticate.input'
 
 @Resolver(PlayerModel)
 export class PlayerResolver {
-  constructor (
-    private readonly createPlayerUseCase: CreatePlayerUseCase,
-    private readonly fetchPlayersUseCase: FetchPlayersUseCase,
-    private readonly fetchPlayerOwnedTeamsUseCase: FetchPlayerOwnedTeamsUseCase,
-    private readonly authenticate: AuthenticateUseCase
-  ) {
+  private readonly createPlayerUseCase: CreatePlayerUseCase
+  private readonly fetchPlayersUseCase: FetchPlayersUseCase
+  private readonly fetchPlayerOwnedTeamsUseCase: FetchPlayerOwnedTeamsUseCase
+  private readonly authenticate: AuthenticateUseCase
+
+  constructor () {
     this.createPlayerUseCase = container.get('CreatePlayerUseCase')
     this.fetchPlayersUseCase = container.get('FetchPlayersUseCase')
     this.fetchPlayerOwnedTeamsUseCase = container.get('FetchPlayerOwnedTeamsUseCase')

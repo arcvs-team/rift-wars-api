@@ -1,5 +1,5 @@
 {
-  "id": "b42900b3-88df-4927-b174-da293dc7f713",
+  "id": "44ee05ee-dedc-4c7e-8e3b-0f7583b1b669",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -520,7 +520,8 @@
           "name": "status",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'draft'"
         },
         "created_by": {
           "name": "created_by",
