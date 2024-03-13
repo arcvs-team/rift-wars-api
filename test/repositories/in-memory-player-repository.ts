@@ -4,6 +4,16 @@ import { type Player } from '@/domain/enterprise/player'
 export class InMemoryPlayerRepository implements PlayerRepository {
   public items: Player[] = []
 
+  async findById (id: string): Promise<Player | null> {
+    const player = this.items.find(player => player.id.toString() === id)
+
+    if (player === undefined) {
+      return null
+    }
+
+    return player
+  }
+
   async findMany (): Promise<Player[]> {
     return this.items
   }

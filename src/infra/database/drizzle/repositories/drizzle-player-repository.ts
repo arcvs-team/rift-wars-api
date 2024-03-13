@@ -8,6 +8,18 @@ import { eq, or } from 'drizzle-orm'
 
 @injectable()
 export class DrizzlePlayerRepository implements PlayerRepository {
+  async findById (id: string): Promise<Player | null> {
+    const result = await db.select().from(players).where(
+      eq(players.id, id)
+    ).limit(1)
+
+    if (result.length === 0) {
+      return null
+    }
+
+    return DrizzlePlayerMapper.toDomain(result[0])
+  }
+
   async findMany (): Promise<Player[]> {
     const result = await db.select().from(players)
 
@@ -18,6 +30,10 @@ export class DrizzlePlayerRepository implements PlayerRepository {
     const result = await db.select().from(players).where(
       eq(players.email, email)
     ).limit(1)
+
+    if (result.length === 0) {
+      return null
+    }
 
     return DrizzlePlayerMapper.toDomain(result[0])
   }

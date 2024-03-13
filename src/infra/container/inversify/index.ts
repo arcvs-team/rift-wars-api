@@ -10,6 +10,7 @@ import { AuthenticateUseCase } from '@/domain/application/use-cases/authenticate
 import { DrizzleTournamentRepository } from '@/infra/database/drizzle/repositories/drizzle-tournament-repository'
 import { CreateTournamentUseCase } from '@/domain/application/use-cases/create-tournament'
 import { FetchTournamentsUseCase } from '@/domain/application/use-cases/fetch-tournaments'
+import { FetchPlayerByIdUseCase } from '@/domain/application/use-cases/fetch-player-by-id'
 
 const container = new Container()
 
@@ -23,6 +24,7 @@ container.bind('FetchPlayerOwnedTeamsUseCase').to(FetchPlayerOwnedTeamsUseCase)
 container.bind('AuthenticateUseCase').to(AuthenticateUseCase)
 container.bind('CreateTournamentUseCase').to(CreateTournamentUseCase)
 container.bind('FetchTournamentsUseCase').to(FetchTournamentsUseCase)
+container.bind('FetchPlayerByIdUseCase').to(FetchPlayerByIdUseCase)
 
 container.bind('HashComparer').to(BcryptHasher)
 container.bind('HashGenerator').to(BcryptHasher)
