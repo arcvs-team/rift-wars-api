@@ -7,14 +7,14 @@
 
 <p align="center">
   <a href="#about-the-project">About the project</a><br>
-  <a href="#local-development">Local Development</a><br>
+  <a href="#local-development">Local development</a><br>
 </p>
 
 ## About the project
 
 The Rift Wars API was created to enable all interactivity of the web app. It was built with GraphQL and has usage documentation on Apollo Server.
 
-## Local Development
+## Local development
 
 After clonning the repository, you need to have <a href="https://docs.docker.com/desktop/">docker</a> installed, preferably Docker Desktop.
 
