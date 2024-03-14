@@ -4,6 +4,7 @@ import { TeamRepository } from '../repositories/team-repository'
 import { right, type Either } from '@/core/either'
 import { Team } from '../../enterprise/entities/team'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { type UseCase } from '@/core/protocols/use-case'
 
 interface CreateTeamParams {
   name: string
@@ -15,7 +16,7 @@ type CreateTeamResult = Either<null, {
 }>
 
 @injectable()
-export class CreateTeamUseCase {
+export class CreateTeamUseCase implements UseCase {
   constructor (
     @inject('TeamRepository')
     private readonly teamRepository: TeamRepository

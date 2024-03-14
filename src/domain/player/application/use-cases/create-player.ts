@@ -5,6 +5,7 @@ import { inject, injectable } from 'inversify'
 import { PlayerAlreadyExistsError } from './errors/player-already-exists.error'
 import { HashGenerator } from '../cryptography/hash-generator'
 import { Player } from '../../enterprise/entities/player'
+import { type UseCase } from '@/core/protocols/use-case'
 
 interface CreatePlayerParams {
   email: string
@@ -17,7 +18,7 @@ type CreatePlayerResult = Either<PlayerAlreadyExistsError, {
 }>
 
 @injectable()
-export class CreatePlayerUseCase {
+export class CreatePlayerUseCase implements UseCase {
   constructor (
     @inject('PlayerRepository')
     private readonly playerRepository: PlayerRepository,

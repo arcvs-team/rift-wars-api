@@ -3,6 +3,7 @@ import { inject, injectable } from 'inversify'
 import { TeamRepository } from '../repositories/team-repository'
 import { type Either, right } from '@/core/either'
 import { type Team } from '../../enterprise/entities/team'
+import { type UseCase } from '@/core/protocols/use-case'
 
 interface FetchPlayerOwnedTeamsParams {
   playerId: string
@@ -13,7 +14,7 @@ type FetchPlayerOwnedTeamsResult = Either<null, {
 }>
 
 @injectable()
-export class FetchPlayerOwnedTeamsUseCase {
+export class FetchPlayerOwnedTeamsUseCase implements UseCase {
   constructor (
     @inject('TeamRepository')
     private readonly teamRepository: TeamRepository

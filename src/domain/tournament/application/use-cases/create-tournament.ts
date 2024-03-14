@@ -4,6 +4,7 @@ import { TournamentRepository } from '../repositories/tournament-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { type Either, right } from '@/core/either'
 import { Tournament } from '../../enterprise/entities/tournament'
+import { type UseCase } from '@/core/protocols/use-case'
 
 interface CreateTournamentParams {
   name: string
@@ -21,7 +22,7 @@ type CreateTournamentResult = Either<null, {
 }>
 
 @injectable()
-export class CreateTournamentUseCase {
+export class CreateTournamentUseCase implements UseCase {
   constructor (
     @inject('TournamentRepository')
     private readonly tournamentRepository: TournamentRepository

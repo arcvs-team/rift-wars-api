@@ -5,6 +5,7 @@ import { PlayerRepository } from '../repositories/player-repository'
 import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 import { Encrypter } from '../cryptography/encrypter'
 import { HashComparer } from '../cryptography/hash-comparer'
+import { type UseCase } from '@/core/protocols/use-case'
 
 interface AuthenticateParams {
   email: string
@@ -16,7 +17,7 @@ type AuthenticateResult = Either<InvalidCredentialsError, {
 }>
 
 @injectable()
-export class AuthenticateUseCase {
+export class AuthenticateUseCase implements UseCase {
   constructor (
     @inject('PlayerRepository')
     private readonly playerRepository: PlayerRepository,
