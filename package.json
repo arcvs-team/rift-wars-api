@@ -8,6 +8,7 @@
     "db:generate": "npx drizzle-kit generate:pg",
     "db:migrate": "npx ts-node-dev src/infra/database/drizzle/migrate.ts",
     "test": "npx vitest run",
+    "test:coverage": "npx vitest run --coverage",
     "prepare": "npx husky"
   },
   "keywords": [],
@@ -21,6 +22,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.25",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@vitest/coverage-v8": "^1.3.1",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
     "eslint-config-standard-with-typescript": "^43.0.1",

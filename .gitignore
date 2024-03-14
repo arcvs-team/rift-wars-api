@@ -2,6 +2,7 @@
 node_modules
 .env
 dist
+coverage
 codealike.json
 
 src/infra/graphql/schema.gql
