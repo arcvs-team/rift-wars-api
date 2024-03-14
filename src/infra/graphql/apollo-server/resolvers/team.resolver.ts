@@ -6,20 +6,27 @@ import { CreateTeamInput } from '../dtos/inputs/create-team.input'
 import { Player } from '@/domain/player/enterprise/entities/player'
 import { GraphQLError } from 'graphql'
 import { ApolloTeamMapper } from '../mappers/apollo-team-mapper'
+import { type FetchTeamsUseCase } from '@/domain/team/application/use-cases/fetch-teams'
 
 @Resolver()
 export class TeamResolver {
+  private readonly fetchTeamsUseCase: FetchTeamsUseCase
   private readonly createTeamUseCase: CreateTeamUseCase
 
   constructor () {
+    this.fetchTeamsUseCase = container.get('FetchTeamsUseCase')
     this.createTeamUseCase = container.get('CreateTeamUseCase')
   }
 
   @Query(() => [TeamModel])
   async team () {
-    const teams = [] as TeamModel[]
+    const result = await this.fetchTeamsUseCase.execute()
 
-    return teams
+    if (result.isRight()) {
+      return result.value.teams.map(ApolloTeamMapper.toApollo)
+    }
+
+    throw new GraphQLError('Internal server error.')
   }
 
   @Mutation(() => TeamModel)

@@ -12,6 +12,7 @@ import { CreateTournamentUseCase } from '@/domain/tournament/application/use-cas
 import { FetchTournamentsUseCase } from '@/domain/tournament/application/use-cases/fetch-tournaments'
 import { FetchPlayerByIdUseCase } from '@/domain/player/application/use-cases/fetch-player-by-id'
 import { CreateTeamUseCase } from '@/domain/team/application/use-cases/create-team'
+import { FetchTeamsUseCase } from '@/domain/team/application/use-cases/fetch-teams'
 
 const container = new Container()
 
@@ -27,6 +28,7 @@ container.bind('CreateTournamentUseCase').to(CreateTournamentUseCase)
 container.bind('FetchTournamentsUseCase').to(FetchTournamentsUseCase)
 container.bind('FetchPlayerByIdUseCase').to(FetchPlayerByIdUseCase)
 container.bind('CreateTeamUseCase').to(CreateTeamUseCase)
+container.bind('FetchTeamsUseCase').to(FetchTeamsUseCase)
 
 container.bind('HashComparer').to(BcryptHasher)
 container.bind('HashGenerator').to(BcryptHasher)
