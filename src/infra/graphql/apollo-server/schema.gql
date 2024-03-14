@@ -18,6 +18,10 @@ input CreatePlayerInput {
   riotId: String!
 }
 
+input CreateTeamInput {
+  name: String!
+}
+
 input CreateTournamentInput {
   description: String
   endDate: DateTimeISO
@@ -35,6 +39,7 @@ scalar DateTimeISO
 
 type Mutation {
   createPlayer(data: CreatePlayerInput!): PlayerModel!
+  createTeam(data: CreateTeamInput!): TeamModel!
   createTournament(data: CreateTournamentInput!): TournamentModel!
 }
 
