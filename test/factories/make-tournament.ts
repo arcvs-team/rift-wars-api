@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Tournament, type TournamentAttributes } from '@/domain/enterprise/tournament'
+import { Tournament, type TournamentAttributes } from '@/domain/tournament/enterprise/entities/tournament'
 import { faker } from '@faker-js/faker'
 
 export function makeTournament (

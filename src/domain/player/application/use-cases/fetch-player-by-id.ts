@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify'
 import { PlayerRepository } from '../repositories/player-repository'
 import { type Either, left, right } from '@/core/either'
 import { InvalidAccessTokenError } from './errors/invalid-access-token.error'
-import { type Player } from '@/domain/enterprise/player'
+import { type Player } from '../../enterprise/entities/player'
 
 interface FetchPlayerByIdParams {
   userId: string

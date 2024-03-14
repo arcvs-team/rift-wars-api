@@ -1,6 +1,6 @@
+import { Entity } from '@/core/entities/entity'
 import { type UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Entity } from '../../core/entities/entity'
-import { type Optional } from '../../core/types/optional'
+import { type Optional } from '@/core/types/optional'
 
 export interface PlayerAttributes {
   email: string

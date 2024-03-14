@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { inject, injectable } from 'inversify'
 import { TeamRepository } from '../repositories/team-repository'
-import { type Team } from '@/domain/enterprise/team'
 import { type Either, right } from '@/core/either'
+import { type Team } from '../../enterprise/entities/team'
 
 interface FetchPlayerOwnedTeamsParams {
   playerId: string

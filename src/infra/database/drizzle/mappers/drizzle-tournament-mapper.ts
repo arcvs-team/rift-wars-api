@@ -1,4 +1,4 @@
-import { Tournament } from '@/domain/enterprise/tournament'
+import { Tournament } from '@/domain/tournament/enterprise/entities/tournament'
 import { type DrizzleTournament } from '../schema'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 

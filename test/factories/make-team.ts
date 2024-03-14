@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Team, type TeamAttributes } from '@/domain/enterprise/team'
+import { Team, type TeamAttributes } from '@/domain/team/enterprise/entities/team'
 import { faker } from '@faker-js/faker'
 
 export function makeTeam (

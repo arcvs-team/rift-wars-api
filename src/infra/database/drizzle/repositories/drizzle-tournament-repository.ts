@@ -1,9 +1,9 @@
-import { type TournamentRepository } from '@/domain/application/repositories/tournament-repository'
-import { type Tournament } from '@/domain/enterprise/tournament'
 import { injectable } from 'inversify'
 import { DrizzleTournamentMapper } from '../mappers/drizzle-tournament-mapper'
 import { tournaments } from '../schema'
 import { db } from '../connection'
+import { type TournamentRepository } from '@/domain/tournament/application/repositories/tournament-repository'
+import { type Tournament } from '@/domain/tournament/enterprise/entities/tournament'
 
 @injectable()
 export class DrizzleTournamentRepository implements TournamentRepository {

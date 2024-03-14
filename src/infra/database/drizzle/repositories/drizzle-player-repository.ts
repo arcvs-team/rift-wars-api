@@ -1,10 +1,10 @@
 import { db } from '../connection'
 import { players } from '../schema'
 import { injectable } from 'inversify'
-import { type PlayerRepository } from '@/domain/application/repositories/player-repository'
 import { DrizzlePlayerMapper } from '../mappers/drizzle-player-mapper'
-import { type Player } from '@/domain/enterprise/player'
 import { eq, or } from 'drizzle-orm'
+import { type PlayerRepository } from '@/domain/player/application/repositories/player-repository'
+import { type Player } from '@/domain/player/enterprise/entities/player'
 
 @injectable()
 export class DrizzlePlayerRepository implements PlayerRepository {

@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { type DrizzleTeam } from '../schema'
-import { Team } from '@/domain/enterprise/team'
+import { Team } from '@/domain/team/enterprise/entities/team'
 
 export class DrizzleTeamMapper {
   static toDomain (raw: DrizzleTeam): Team {

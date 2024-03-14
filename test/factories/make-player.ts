@@ -1,5 +1,5 @@
 import { type UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Player, type PlayerAttributes } from '@/domain/enterprise/player'
+import { Player, type PlayerAttributes } from '@/domain/player/enterprise/entities/player'
 import { faker } from '@faker-js/faker'
 
 export function makePlayer (

@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import { inject, injectable } from 'inversify'
 import { TournamentRepository } from '../repositories/tournament-repository'
 import { type Either, right } from '@/core/either'
-import { type Tournament } from '@/domain/enterprise/tournament'
+import { type Tournament } from '../../enterprise/entities/tournament'
 
 type FetchTournamentsResult = Either<null, {
   tournaments: Tournament[]

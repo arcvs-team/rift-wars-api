@@ -1,4 +1,4 @@
-import { type Tournament } from '@/domain/enterprise/tournament'
+import { type Tournament } from '@/domain/tournament/enterprise/entities/tournament'
 
 export class ApolloTournamentMapper {
   static toApollo (tournament: Tournament) {

@@ -1,10 +1,10 @@
 import { db } from '../connection'
 import { injectable } from 'inversify'
-import { type Team } from '@/domain/enterprise/team'
-import { type TeamRepository } from '@/domain/application/repositories/team-repository'
 import { teams } from '../schema'
 import { DrizzleTeamMapper } from '../mappers/drizzle-team-mapper'
 import { eq } from 'drizzle-orm'
+import { type TeamRepository } from '@/domain/team/application/repositories/team-repository'
+import { type Team } from '@/domain/team/enterprise/entities/team'
 
 @injectable()
 export class DrizzleTeamRepository implements TeamRepository {

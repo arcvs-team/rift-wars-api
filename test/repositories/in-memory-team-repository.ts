@@ -1,5 +1,5 @@
-import { type TeamRepository } from '@/domain/application/repositories/team-repository'
-import { type Team } from '@/domain/enterprise/team'
+import { type TeamRepository } from '@/domain/team/application/repositories/team-repository'
+import { type Team } from '@/domain/team/enterprise/entities/team'
 
 export class InMemoryTeamRepository implements TeamRepository {
   public items: Team[] = []

@@ -1,9 +1,9 @@
 import 'reflect-metadata'
 import { inject, injectable } from 'inversify'
 import { TournamentRepository } from '../repositories/tournament-repository'
-import { Tournament } from '@/domain/enterprise/tournament'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { type Either, right } from '@/core/either'
+import { Tournament } from '../../enterprise/entities/tournament'
 
 interface CreateTournamentParams {
   name: string

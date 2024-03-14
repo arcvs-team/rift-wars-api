@@ -1,5 +1,5 @@
+import { type Encrypter } from '@/domain/player/application/cryptography/encrypter'
 import 'dotenv/config'
-import { type Encrypter } from '@/domain/application/cryptography/encrypter'
 import { injectable } from 'inversify'
 import { sign } from 'jsonwebtoken'
 

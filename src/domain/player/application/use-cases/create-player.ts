@@ -1,10 +1,10 @@
 import 'reflect-metadata'
 import { right, type Either, left } from '@/core/either'
-import { Player } from '../../enterprise/player'
 import { type PlayerRepository } from '../repositories/player-repository'
 import { inject, injectable } from 'inversify'
 import { PlayerAlreadyExistsError } from './errors/player-already-exists.error'
 import { HashGenerator } from '../cryptography/hash-generator'
+import { Player } from '../../enterprise/entities/player'
 
 interface CreatePlayerParams {
   email: string

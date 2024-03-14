@@ -1,5 +1,5 @@
-import { type PlayerRepository } from '@/domain/application/repositories/player-repository'
-import { type Player } from '@/domain/enterprise/player'
+import { type PlayerRepository } from '@/domain/player/application/repositories/player-repository'
+import { type Player } from '@/domain/player/enterprise/entities/player'
 
 export class InMemoryPlayerRepository implements PlayerRepository {
   public items: Player[] = []

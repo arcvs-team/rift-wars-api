@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Player } from '../../../../domain/enterprise/player'
 import { type DrizzlePlayer } from '../schema'
+import { Player } from '@/domain/player/enterprise/entities/player'
 
 export class DrizzlePlayerMapper {
   static toDomain (raw: DrizzlePlayer): Player {

@@ -11,7 +11,7 @@ import { TeamResolver } from './resolvers/team.resolver'
 import { TournamentResolver } from './resolvers/tournament.resolver'
 import { verify } from 'jsonwebtoken'
 import { container } from '@/infra/container/inversify'
-import { type FetchPlayerByIdUseCase } from '@/domain/application/use-cases/fetch-player-by-id'
+import { type FetchPlayerByIdUseCase } from '@/domain/player/application/use-cases/fetch-player-by-id'
 
 export class GraphQLServer {
   private schema: GraphQLSchema

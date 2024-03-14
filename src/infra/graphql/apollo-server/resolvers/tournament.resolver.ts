@@ -1,12 +1,12 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { TournamentModel } from '../dtos/models/tournament.model'
-import { type CreateTournamentUseCase } from '@/domain/application/use-cases/create-tournament'
-import { type FetchTournamentsUseCase } from '@/domain/application/use-cases/fetch-tournaments'
 import { container } from '@/infra/container/inversify'
 import { ApolloTournamentMapper } from '../mappers/apollo-tournament-mapper'
 import { GraphQLError } from 'graphql'
 import { CreateTournamentInput } from '../dtos/inputs/create-tournament.input'
-import { Player } from '@/domain/enterprise/player'
+import { type CreateTournamentUseCase } from '@/domain/tournament/application/use-cases/create-tournament'
+import { type FetchTournamentsUseCase } from '@/domain/tournament/application/use-cases/fetch-tournaments'
+import { Player } from '@/domain/player/enterprise/entities/player'
 
 @Resolver(TournamentModel)
 export class TournamentResolver {

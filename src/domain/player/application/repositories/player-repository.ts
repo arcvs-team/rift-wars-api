@@ -1,4 +1,4 @@
-import { type Player } from '../../enterprise/player'
+import { type Player } from '../../enterprise/entities/player'
 
 export interface PlayerRepository {
   findById: (id: string) => Promise<Player | null>

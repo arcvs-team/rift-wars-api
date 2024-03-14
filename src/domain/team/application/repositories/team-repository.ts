@@ -1,4 +1,4 @@
-import { type Team } from '@/domain/enterprise/team'
+import { type Team } from '../../enterprise/entities/team'
 
 export interface TeamRepository {
   create: (team: Team) => Promise<void>

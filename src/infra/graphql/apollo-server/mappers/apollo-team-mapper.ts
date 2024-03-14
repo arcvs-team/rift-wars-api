@@ -1,4 +1,4 @@
-import { type Team } from '@/domain/enterprise/team'
+import { type Team } from '@/domain/team/enterprise/entities/team'
 
 export class ApolloTeamMapper {
   static toApollo (team: Team) {
