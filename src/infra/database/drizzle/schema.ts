@@ -32,6 +32,17 @@ export const teamPlayers = pgTable('team_players', {
 })
 export type DrizzleTeamPlayer = typeof teamPlayers.$inferSelect
 
+export const teamPlayerInvites = pgTable('team_player_invites', {
+  id: uuid('id').primaryKey(),
+  playerId: uuid('player_id').notNull().references(() => players.id),
+  teamId: uuid('team_id').notNull().references(() => teams.id),
+  acceptedAt: timestamp('accepted_at'),
+  rejectedAt: timestamp('rejected_at'),
+  invitedAt: timestamp('invited_at').defaultNow(),
+  invitedBy: uuid('invited_by').references(() => players.id)
+})
+export type DrizzleTeamPlayerInvite = typeof teamPlayerInvites.$inferSelect
+
 export const tournaments = pgTable('tournaments', {
   id: uuid('id').primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),

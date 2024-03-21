@@ -20,6 +20,16 @@ CREATE TABLE IF NOT EXISTS "players" (
 	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "team_player_invites" (
+	"id" uuid PRIMARY KEY NOT NULL,
+	"player_id" uuid NOT NULL,
+	"team_id" uuid NOT NULL,
+	"accepted_at" timestamp,
+	"rejected_at" timestamp,
+	"invited_at" timestamp DEFAULT now(),
+	"invited_by" uuid
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "team_players" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"player_id" uuid NOT NULL,
@@ -92,6 +102,24 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "matches" ADD CONSTRAINT "matches_winner_team_id_teams_id_fk" FOREIGN KEY ("winner_team_id") REFERENCES "teams"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "team_player_invites" ADD CONSTRAINT "team_player_invites_player_id_players_id_fk" FOREIGN KEY ("player_id") REFERENCES "players"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "team_player_invites" ADD CONSTRAINT "team_player_invites_team_id_teams_id_fk" FOREIGN KEY ("team_id") REFERENCES "teams"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "team_player_invites" ADD CONSTRAINT "team_player_invites_invited_by_players_id_fk" FOREIGN KEY ("invited_by") REFERENCES "players"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
