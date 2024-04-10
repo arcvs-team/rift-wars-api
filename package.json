@@ -41,6 +41,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.29.5",
+    "fastify": "^4.26.2",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.5",
     "inversify": "^6.0.2",
