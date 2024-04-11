@@ -1,5 +1,5 @@
 {
-  "id": "c557306b-5efa-4c05-a647-98b3109bdfb0",
+  "id": "35facc09-1ade-47aa-8e23-9d52a594e81e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -17,6 +17,12 @@
         "tournament_id": {
           "name": "tournament_id",
           "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "riot_tournament_code": {
+          "name": "riot_tournament_code",
+          "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
         },
@@ -150,6 +156,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "riot_puuid": {
+          "name": "riot_puuid",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "password": {
           "name": "password",
           "type": "varchar(256)",
@@ -251,6 +263,47 @@
         },
         "region": {
           "name": "region",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "riot_tournament_providers": {
+      "name": "riot_tournament_providers",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "char": {
+          "name": "char",
+          "type": "char",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
@@ -644,6 +697,18 @@
           "primaryKey": true,
           "notNull": true
         },
+        "riot_provider_id": {
+          "name": "riot_provider_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "riot_tournament_id": {
+          "name": "riot_tournament_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "name": {
           "name": "name",
           "type": "varchar(256)",
@@ -722,6 +787,19 @@
       },
       "indexes": {},
       "foreignKeys": {
+        "tournaments_riot_provider_id_riot_tournament_providers_provider_id_fk": {
+          "name": "tournaments_riot_provider_id_riot_tournament_providers_provider_id_fk",
+          "tableFrom": "tournaments",
+          "tableTo": "riot_tournament_providers",
+          "columnsFrom": [
+            "riot_provider_id"
+          ],
+          "columnsTo": [
+            "provider_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
         "tournaments_winner_team_id_teams_id_fk": {
           "name": "tournaments_winner_team_id_teams_id_fk",
           "tableFrom": "tournaments",
