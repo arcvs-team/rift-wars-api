@@ -5,7 +5,7 @@ import { type Optional } from '@/core/types/optional'
 export interface RiotGameResultAttributes {
   startTime: number
   shortCode: string
-  metadata?: string
+  metaData?: string
   gameId: number
   gameName: string
   gameType: string
@@ -24,8 +24,8 @@ export class RiotGameResult extends Entity<RiotGameResultAttributes> {
     return this.attributes.shortCode
   }
 
-  get metadata () {
-    return this.attributes.metadata
+  get metaData () {
+    return this.attributes.metaData
   }
 
   get gameId () {

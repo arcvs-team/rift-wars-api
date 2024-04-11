@@ -8,7 +8,7 @@ export class DrizzleRiotGameResultMapper {
       {
         startTime: raw.startTime,
         shortCode: raw.shortCode,
-        metadata: raw.metadata ?? undefined,
+        metaData: raw.metaData ?? undefined,
         gameId: raw.gameId,
         gameName: raw.gameName,
         gameType: raw.gameType,
@@ -26,7 +26,7 @@ export class DrizzleRiotGameResultMapper {
       id: riotGameResult.id.toString(),
       startTime: riotGameResult.startTime,
       shortCode: riotGameResult.shortCode,
-      metadata: riotGameResult.metadata ?? null,
+      metaData: riotGameResult.metaData ?? null,
       gameId: riotGameResult.gameId,
       gameName: riotGameResult.gameName,
       gameType: riotGameResult.gameType,

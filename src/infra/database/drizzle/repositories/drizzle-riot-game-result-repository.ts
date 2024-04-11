@@ -3,10 +3,13 @@ import { type RiotGameResultRepository } from '@/domain/match/application/reposi
 import { type RiotGameResult } from '@/domain/match/enterprise/entities/riot-game-result'
 import { DrizzleRiotGameResultMapper } from '../mappers/drizzle-riot-game-result'
 import { riotGameResults } from '../schema'
+import { injectable } from 'inversify'
 
+@injectable()
 export class DrizzleRiotGameResultRepository implements RiotGameResultRepository {
   async create (riotGameResult: RiotGameResult): Promise<void> {
     const data = DrizzleRiotGameResultMapper.toPersistence(riotGameResult)
+    console.log({ data })
     await db.insert(riotGameResults).values(data)
   }
 }

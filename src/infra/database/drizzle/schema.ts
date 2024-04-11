@@ -97,7 +97,7 @@ export const riotGameResults = pgTable('riot_game_results', {
   id: uuid('id').primaryKey(),
   startTime: bigint('start_time', { mode: 'number' }).notNull(),
   shortCode: varchar('short_code', { length: 256 }).notNull(),
-  metadata: text('metadata'),
+  metaData: text('metadata'),
   gameId: bigint('game_id', { mode: 'number' }).notNull(),
   gameName: uuid('game_name').notNull(),
   gameType: varchar('game_type', { length: 256 }).notNull(),
