@@ -5,6 +5,7 @@ import { type Optional } from '@/core/types/optional'
 export interface TeamPlayerAttributes {
   playerId: UniqueEntityID
   teamId: UniqueEntityID
+  isCaptain: boolean
   joinedAt?: Date
   removedAt?: Date
   removedBy?: UniqueEntityID
@@ -17,6 +18,10 @@ export class TeamPlayer extends Entity<TeamPlayerAttributes> {
 
   get teamId () {
     return this.attributes.teamId
+  }
+
+  get isCaptain () {
+    return this.attributes.isCaptain
   }
 
   get joinedAt () {

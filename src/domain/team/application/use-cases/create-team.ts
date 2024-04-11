@@ -5,6 +5,8 @@ import { right, type Either } from '@/core/either'
 import { Team } from '../../enterprise/entities/team'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { type UseCase } from '@/core/protocols/use-case'
+import { TeamPlayerRepository } from '../repositories/team-player-repository'
+import { TeamPlayer } from '../../enterprise/entities/team-player'
 
 interface CreateTeamParams {
   name: string
@@ -19,7 +21,10 @@ type CreateTeamResult = Either<null, {
 export class CreateTeamUseCase implements UseCase {
   constructor (
     @inject('TeamRepository')
-    private readonly teamRepository: TeamRepository
+    private readonly teamRepository: TeamRepository,
+
+    @inject('TeamPlayerRepository')
+    private readonly teamPlayerRepository: TeamPlayerRepository
   ) {}
 
   async execute ({ name, createdBy }: CreateTeamParams): Promise<CreateTeamResult> {
@@ -29,6 +34,14 @@ export class CreateTeamUseCase implements UseCase {
     })
 
     await this.teamRepository.create(team)
+
+    const teamPlayer = TeamPlayer.create({
+      playerId: new UniqueEntityID(createdBy),
+      teamId: team.id,
+      isCaptain: true
+    })
+
+    await this.teamPlayerRepository.create(teamPlayer)
 
     return right({
       team

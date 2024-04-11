@@ -1,5 +1,5 @@
 {
-  "id": "98163048-f82c-4cb7-b09b-b6b4a96884a9",
+  "id": "36671778-4049-4370-afd6-d1d3b00c4bc3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -442,6 +442,13 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_captain": {
+          "name": "is_captain",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "joined_at": {
           "name": "joined_at",

@@ -10,6 +10,7 @@ export function makeTeamPlayer (
     {
       playerId: new UniqueEntityID(faker.string.uuid()),
       teamId: new UniqueEntityID(faker.string.uuid()),
+      isCaptain: false,
       joinedAt: faker.date.recent(),
       ...override
     },
