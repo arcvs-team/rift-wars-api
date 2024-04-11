@@ -56,6 +56,10 @@ export class RiotGameResult extends Entity<RiotGameResultAttributes> {
     return this.attributes.createdAt
   }
 
+  get matchId () {
+    return `${this.region}_${this.gameId}`
+  }
+
   static create (
     attributes: Optional<RiotGameResultAttributes, 'createdAt'>,
     id?: UniqueEntityID

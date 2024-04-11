@@ -5,18 +5,9 @@ import { inject, injectable } from 'inversify'
 import { RiotGameResultRepository } from '../repositories/riot-game-result-repository'
 import { RiotGameResult } from '../../enterprise/entities/riot-game-result'
 import { RiotApi } from '@/infra/riot/riot-api'
+import { type FinishedMatchData } from '@/infra/riot/models/finished-match-data'
 
-interface HandleFinishedGameParams {
-  startTime: number
-  shortCode: string
-  metaData: string
-  gameId: number
-  gameName: string
-  gameType: string
-  gameMap: number
-  gameMode: string
-  region: string
-}
+interface HandleFinishedGameParams extends FinishedMatchData {}
 
 type HandleFinishedGameResult = Either<null, null>
 
@@ -33,6 +24,9 @@ export class HandleFinishedGameUseCase implements UseCase {
   async execute (params: HandleFinishedGameParams): Promise<HandleFinishedGameResult> {
     const riotGameResult = RiotGameResult.create(params)
     await this.riotGameResultRepository.create(riotGameResult)
+
+    const matchData = await this.riotApi.fetchMatch(riotGameResult.matchId)
+    console.log(JSON.stringify(matchData))
     return right(null)
   }
 }

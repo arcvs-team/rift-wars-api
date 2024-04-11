@@ -9,7 +9,6 @@ import { injectable } from 'inversify'
 export class DrizzleRiotGameResultRepository implements RiotGameResultRepository {
   async create (riotGameResult: RiotGameResult): Promise<void> {
     const data = DrizzleRiotGameResultMapper.toPersistence(riotGameResult)
-    console.log({ data })
     await db.insert(riotGameResults).values(data)
   }
 }
