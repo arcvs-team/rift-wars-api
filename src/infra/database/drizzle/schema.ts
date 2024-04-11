@@ -27,6 +27,7 @@ export const teamPlayers = pgTable('team_players', {
   id: uuid('id').primaryKey(),
   playerId: uuid('player_id').notNull().references(() => players.id),
   teamId: uuid('team_id').notNull().references(() => teams.id),
+  isCaptain: boolean('is_captain').notNull().default(false),
   joinedAt: timestamp('joined_at').defaultNow(),
   removedAt: timestamp('removed_at'),
   removedBy: uuid('removed_by').references(() => players.id)

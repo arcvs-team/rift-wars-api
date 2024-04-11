@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS "team_players" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"player_id" uuid NOT NULL,
 	"team_id" uuid NOT NULL,
+	"is_captain" boolean DEFAULT false NOT NULL,
 	"joined_at" timestamp DEFAULT now(),
 	"removed_at" timestamp,
 	"removed_by" uuid

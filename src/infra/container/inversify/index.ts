@@ -18,12 +18,14 @@ import { RiotApiServices } from '@/infra/riot/riot-api-services'
 import { DrizzleRiotGameResultRepository } from '@/infra/database/drizzle/repositories/drizzle-riot-game-result-repository'
 import { HandleFinishedGameUseCase } from '@/domain/match/application/use-cases/handle-finished-game'
 import { DrizzleRiotTournamentProviderRepository } from '@/infra/database/drizzle/repositories/drizzle-riot-tournament-provider-repository'
+import { DrizzleTeamPlayerRepository } from '@/infra/database/drizzle/repositories/drizzle-team-player-repository'
 
 const container = new Container()
 
 container.bind('PlayerRepository').to(DrizzlePlayerRepository)
 container.bind('TeamRepository').to(DrizzleTeamRepository)
 container.bind('TournamentRepository').to(DrizzleTournamentRepository)
+container.bind('TeamPlayerRepository').to(DrizzleTeamPlayerRepository)
 container.bind('RiotGameResultRepository').to(DrizzleRiotGameResultRepository)
 container.bind('RiotTournamentProviderRepository').to(DrizzleRiotTournamentProviderRepository)
 
