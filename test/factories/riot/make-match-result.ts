@@ -1,4 +1,4 @@
-import { type MatchData } from '@/infra/riot/models/match-data'
+import { type MatchData } from '@/domain/tournament/models/match-data'
 import { faker } from '@faker-js/faker'
 
 export function makeMatchResult (override: Partial<MatchData> = {}): Partial<MatchData> {

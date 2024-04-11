@@ -8,6 +8,7 @@ export class DrizzlePlayerMapper {
       {
         email: raw.email,
         riotId: raw.riotId,
+        riotPuuid: raw.riotPuuid,
         password: raw.password,
         createdAt: raw.createdAt ?? undefined,
         updatedAt: raw.updatedAt ?? undefined
@@ -21,6 +22,7 @@ export class DrizzlePlayerMapper {
       id: player.id.toString(),
       email: player.email,
       riotId: player.riotId,
+      riotPuuid: player.riotPuuid,
       password: player.password,
       createdAt: player.createdAt ?? null,
       updatedAt: player.updatedAt ?? null

@@ -5,6 +5,7 @@ import { type Optional } from '@/core/types/optional'
 export interface PlayerAttributes {
   email: string
   riotId: string
+  riotPuuid: string
   password: string
   createdAt?: Date
   updatedAt?: Date
@@ -17,6 +18,10 @@ export class Player extends Entity<PlayerAttributes> {
 
   get riotId () {
     return this.attributes.riotId
+  }
+
+  get riotPuuid () {
+    return this.attributes.riotPuuid
   }
 
   get password () {

@@ -10,23 +10,17 @@ export class AxiosHttpClient implements HttpClient {
     this.instance = axios.create()
   }
 
-  async request<T> (data: HttpRequest): Promise<HttpResponse<T>> {
-    try {
-      const { data: body, status } = await this.instance.request({
-        url: data.url,
-        method: data.method,
-        data: data.body,
-        headers: data.headers
-      })
+  async request<T>(data: HttpRequest): Promise<HttpResponse<T>> {
+    const { data: body, status } = await this.instance.request({
+      url: data.url,
+      method: data.method,
+      data: data.body,
+      headers: data.headers
+    })
 
-      return {
-        statusCode: status,
-        body
-      }
-    } catch (error) {
-      return {
-        statusCode: 500
-      }
+    return {
+      statusCode: status,
+      body
     }
   }
 }

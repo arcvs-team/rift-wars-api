@@ -9,6 +9,8 @@ export function makeTournament (
   const tournament = Tournament.create(
     {
       name: faker.word.words(2),
+      providerId: new UniqueEntityID(faker.string.uuid()),
+      riotTournamentId: faker.number.int({ min: 1000, max: 9999 }),
       description: faker.lorem.sentences({ max: 20, min: 10 }),
       rules: faker.lorem.sentences({ max: 20, min: 10 }),
       startDate: faker.date.recent(),

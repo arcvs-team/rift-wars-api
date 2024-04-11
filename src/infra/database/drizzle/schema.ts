@@ -1,9 +1,10 @@
-import { bigint, text, integer, uniqueIndex, pgTable, timestamp, varchar, uuid } from 'drizzle-orm/pg-core'
+import { boolean, char, bigint, text, integer, uniqueIndex, pgTable, timestamp, varchar, uuid } from 'drizzle-orm/pg-core'
 
 export const players = pgTable('players', {
   id: uuid('id').primaryKey(),
   email: varchar('email', { length: 256 }).notNull(),
   riotId: varchar('riot_id', { length: 256 }).notNull(),
+  riotPuuid: varchar('riot_puuid', { length: 256 }).notNull(),
   password: varchar('password', { length: 256 }).notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow()
@@ -45,6 +46,8 @@ export type DrizzleTeamPlayerInvite = typeof teamPlayerInvites.$inferSelect
 
 export const tournaments = pgTable('tournaments', {
   id: uuid('id').primaryKey(),
+  providerId: uuid('provider_id').notNull().references(() => riotTournamentProviders.id),
+  riotTournamentId: integer('riot_tournament_id').notNull(),
   name: varchar('name', { length: 256 }).notNull(),
   description: text('description'),
   rules: text('rules'),
@@ -82,6 +85,7 @@ export type DrizzleTournamentTeam = typeof tournamentTeams.$inferSelect
 export const matches = pgTable('matches', {
   id: uuid('id').primaryKey(),
   tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
+  riotTournamentCode: varchar('riot_tournament_code', { length: 256 }).notNull(),
   blueTeamId: uuid('blue_team_id').notNull().references(() => teams.id),
   redTeamId: uuid('red_team_id').notNull().references(() => teams.id),
   blueTeamScore: integer('blue_team_score'),
@@ -107,3 +111,13 @@ export const riotGameResults = pgTable('riot_game_results', {
   createdAt: timestamp('created_at').defaultNow()
 })
 export type DrizzleRiotGameResult = typeof riotGameResults.$inferSelect
+
+export const riotTournamentProviders = pgTable('riot_tournament_providers', {
+  id: uuid('id').primaryKey(),
+  providerId: integer('provider_id').notNull(),
+  region: char('region').notNull(),
+  url: varchar('url', { length: 256 }).notNull(),
+  isActive: boolean('is_active').default(false),
+  createdAt: timestamp('created_at').defaultNow()
+})
+export type DrizzleRiotTournamentProvider = typeof riotTournamentProviders.$inferSelect

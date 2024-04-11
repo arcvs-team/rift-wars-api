@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS "matches" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"tournament_id" uuid NOT NULL,
+	"riot_tournament_code" varchar(256) NOT NULL,
 	"blue_team_id" uuid NOT NULL,
 	"red_team_id" uuid NOT NULL,
 	"blue_team_score" integer,
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS "players" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"email" varchar(256) NOT NULL,
 	"riot_id" varchar(256) NOT NULL,
+	"riot_puuid" varchar(256) NOT NULL,
 	"password" varchar(256) NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
@@ -31,6 +33,15 @@ CREATE TABLE IF NOT EXISTS "riot_game_results" (
 	"game_map" integer NOT NULL,
 	"game_mode" varchar(256) NOT NULL,
 	"region" varchar(256) NOT NULL,
+	"created_at" timestamp DEFAULT now()
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "riot_tournament_providers" (
+	"id" uuid PRIMARY KEY NOT NULL,
+	"provider_id" integer NOT NULL,
+	"region" "char" NOT NULL,
+	"url" varchar(256) NOT NULL,
+	"is_active" boolean DEFAULT false,
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
@@ -80,6 +91,8 @@ CREATE TABLE IF NOT EXISTS "tournament_teams" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tournaments" (
 	"id" uuid PRIMARY KEY NOT NULL,
+	"provider_id" uuid NOT NULL,
+	"riot_tournament_id" integer NOT NULL,
 	"name" varchar(256) NOT NULL,
 	"description" text,
 	"rules" text,
@@ -176,6 +189,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "tournament_teams" ADD CONSTRAINT "tournament_teams_team_id_teams_id_fk" FOREIGN KEY ("team_id") REFERENCES "teams"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "tournaments" ADD CONSTRAINT "tournaments_provider_id_riot_tournament_providers_id_fk" FOREIGN KEY ("provider_id") REFERENCES "riot_tournament_providers"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
