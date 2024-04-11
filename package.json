@@ -8,6 +8,7 @@
     "db:generate": "npx drizzle-kit generate:pg",
     "db:migrate": "npx ts-node-dev src/infra/database/drizzle/migrate.ts",
     "test": "npx vitest run",
+    "test:watch": "npx vitest",
     "test:coverage": "npx vitest run --coverage",
     "prepare": "npx husky"
   },

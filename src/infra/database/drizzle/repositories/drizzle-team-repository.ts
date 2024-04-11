@@ -13,6 +13,18 @@ export class DrizzleTeamRepository implements TeamRepository {
     await db.insert(teams).values(data)
   }
 
+  async findById (id: string): Promise<Team | null> {
+    const result = await db.select().from(teams).where(
+      eq(teams.id, id)
+    ).limit(1)
+
+    if (result.length === 0) {
+      return null
+    }
+
+    return DrizzleTeamMapper.toDomain(result[0])
+  }
+
   async findMany (): Promise<Team[]> {
     const result = await db.select().from(teams)
     return result.map(DrizzleTeamMapper.toDomain)

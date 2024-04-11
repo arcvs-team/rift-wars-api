@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS "team_player_invites" (
 	"accepted_at" timestamp,
 	"rejected_at" timestamp,
 	"invited_at" timestamp DEFAULT now(),
-	"invited_by" uuid
+	"invited_by" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "team_players" (
