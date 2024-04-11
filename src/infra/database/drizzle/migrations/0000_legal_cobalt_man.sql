@@ -20,6 +20,20 @@ CREATE TABLE IF NOT EXISTS "players" (
 	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "riot_game_results" (
+	"id" uuid PRIMARY KEY NOT NULL,
+	"start_time" bigint NOT NULL,
+	"short_code" varchar(256) NOT NULL,
+	"metadata" text,
+	"game_id" bigint NOT NULL,
+	"game_name" uuid NOT NULL,
+	"game_type" varchar(256) NOT NULL,
+	"game_map" integer NOT NULL,
+	"game_mode" varchar(256) NOT NULL,
+	"region" varchar(256) NOT NULL,
+	"created_at" timestamp DEFAULT now()
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "team_player_invites" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"player_id" uuid NOT NULL,

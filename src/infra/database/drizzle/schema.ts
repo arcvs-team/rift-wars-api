@@ -1,4 +1,4 @@
-import { text, integer, uniqueIndex, pgTable, timestamp, varchar, uuid } from 'drizzle-orm/pg-core'
+import { bigint, text, integer, uniqueIndex, pgTable, timestamp, varchar, uuid } from 'drizzle-orm/pg-core'
 
 export const players = pgTable('players', {
   id: uuid('id').primaryKey(),
@@ -92,3 +92,18 @@ export const matches = pgTable('matches', {
   createdAt: timestamp('created_at').defaultNow()
 })
 export type DrizzleMatch = typeof matches.$inferSelect
+
+export const riotGameResults = pgTable('riot_game_results', {
+  id: uuid('id').primaryKey(),
+  startTime: bigint('start_time', { mode: 'number' }).notNull(),
+  shortCode: varchar('short_code', { length: 256 }).notNull(),
+  metadata: text('metadata'),
+  gameId: bigint('game_id', { mode: 'number' }).notNull(),
+  gameName: uuid('game_name').notNull(),
+  gameType: varchar('game_type', { length: 256 }).notNull(),
+  gameMap: integer('game_map').notNull(),
+  gameMode: varchar('game_mode', { length: 256 }).notNull(),
+  region: varchar('region', { length: 256 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow()
+})
+export type DrizzleRiotGameResult = typeof riotGameResults.$inferSelect

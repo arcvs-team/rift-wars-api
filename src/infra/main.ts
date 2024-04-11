@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { ApolloGraphQLServer } from './graphql/apollo-server/apollo-graphql-server'
-import { ExpressHttpServer } from './http/express/express-http-server'
+import { ExpressHttpServer } from './http-server/express/express-http-server'
 
 async function bootstrap () {
   const expressHttpServer = new ExpressHttpServer()

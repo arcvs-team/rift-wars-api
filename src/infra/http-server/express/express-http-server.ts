@@ -50,10 +50,6 @@ export class ExpressHttpServer {
     }))
   }
 
-  public getApp () {
-    return this.app
-  }
-
   public start () {
     this.httpServer.listen(4000, () => {
       console.log(`🚀 Express Server ready at http://localhost:${4000}`)

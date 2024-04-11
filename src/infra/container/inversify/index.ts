@@ -13,6 +13,8 @@ import { FetchTournamentsUseCase } from '@/domain/tournament/application/use-cas
 import { FetchPlayerByIdUseCase } from '@/domain/player/application/use-cases/fetch-player-by-id'
 import { CreateTeamUseCase } from '@/domain/team/application/use-cases/create-team'
 import { FetchTeamsUseCase } from '@/domain/team/application/use-cases/fetch-teams'
+import { AxiosHttpClient } from '@/infra/http-client/axios/axios-http-client'
+import { RiotApiServices } from '@/infra/riot/riot-api-services'
 
 const container = new Container()
 
@@ -30,8 +32,11 @@ container.bind('FetchPlayerByIdUseCase').to(FetchPlayerByIdUseCase)
 container.bind('CreateTeamUseCase').to(CreateTeamUseCase)
 container.bind('FetchTeamsUseCase').to(FetchTeamsUseCase)
 
+container.bind('HttpClient').to(AxiosHttpClient)
 container.bind('HashComparer').to(BcryptHasher)
 container.bind('HashGenerator').to(BcryptHasher)
 container.bind('Encrypter').to(JwtEncrypter)
+
+container.bind('RiotApi').to(RiotApiServices)
 
 export { container }
