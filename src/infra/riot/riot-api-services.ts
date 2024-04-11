@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import 'dotenv/config'
 import { inject, injectable } from 'inversify'
 import { HttpClient } from '../http-client/http-client'

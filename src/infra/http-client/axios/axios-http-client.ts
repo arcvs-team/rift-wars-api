@@ -6,10 +6,8 @@ import { injectable } from 'inversify'
 export class AxiosHttpClient implements HttpClient {
   private readonly instance: AxiosInstance
 
-  constructor (baseURL: string) {
-    this.instance = axios.create({
-      baseURL
-    })
+  constructor () {
+    this.instance = axios.create()
   }
 
   async request<T> (data: HttpRequest): Promise<HttpResponse<T>> {
