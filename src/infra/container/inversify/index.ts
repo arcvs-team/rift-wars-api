@@ -13,12 +13,17 @@ import { FetchTournamentsUseCase } from '@/domain/tournament/application/use-cas
 import { FetchPlayerByIdUseCase } from '@/domain/player/application/use-cases/fetch-player-by-id'
 import { CreateTeamUseCase } from '@/domain/team/application/use-cases/create-team'
 import { FetchTeamsUseCase } from '@/domain/team/application/use-cases/fetch-teams'
+import { AxiosHttpClient } from '@/infra/http-client/axios/axios-http-client'
+import { RiotApiServices } from '@/infra/riot/riot-api-services'
+import { DrizzleRiotGameResultRepository } from '@/infra/database/drizzle/repositories/drizzle-riot-game-result-repository'
+import { HandleFinishedGameUseCase } from '@/domain/match/application/use-cases/handle-finished-game'
 
 const container = new Container()
 
 container.bind('PlayerRepository').to(DrizzlePlayerRepository)
 container.bind('TeamRepository').to(DrizzleTeamRepository)
 container.bind('TournamentRepository').to(DrizzleTournamentRepository)
+container.bind('RiotGameResultRepository').to(DrizzleRiotGameResultRepository)
 
 container.bind('CreatePlayerUseCase').to(CreatePlayerUseCase)
 container.bind('FetchPlayersUseCase').to(FetchPlayersUseCase)
@@ -29,9 +34,13 @@ container.bind('FetchTournamentsUseCase').to(FetchTournamentsUseCase)
 container.bind('FetchPlayerByIdUseCase').to(FetchPlayerByIdUseCase)
 container.bind('CreateTeamUseCase').to(CreateTeamUseCase)
 container.bind('FetchTeamsUseCase').to(FetchTeamsUseCase)
+container.bind('HandleFinishedGameUseCase').to(HandleFinishedGameUseCase)
 
 container.bind('HashComparer').to(BcryptHasher)
 container.bind('HashGenerator').to(BcryptHasher)
 container.bind('Encrypter').to(JwtEncrypter)
+container.bind('HttpClient').to(AxiosHttpClient)
+
+container.bind('RiotApi').to(RiotApiServices)
 
 export { container }

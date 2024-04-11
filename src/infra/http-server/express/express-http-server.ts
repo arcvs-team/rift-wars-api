@@ -6,6 +6,7 @@ import { verify } from 'jsonwebtoken'
 import { container } from '@/infra/container/inversify'
 import { type FetchPlayerByIdUseCase } from '@/domain/player/application/use-cases/fetch-player-by-id'
 import { type ApolloServer } from '@apollo/server'
+import { riotRouter } from '../routes/riot-routes'
 
 export class ExpressHttpServer {
   private readonly app: Application
@@ -21,6 +22,7 @@ export class ExpressHttpServer {
     this.apolloServer = apolloServer
     this.app.use(cors())
     this.app.use(express.json())
+    this.app.use('/riot', riotRouter)
     this.app.use('/graphql', expressMiddleware(this.apolloServer, {
       context: async ({ req, res }) => {
         const accessToken = req.headers.authorization ?? ''
@@ -48,10 +50,6 @@ export class ExpressHttpServer {
         }
       }
     }))
-  }
-
-  public getApp () {
-    return this.app
   }
 
   public start () {
