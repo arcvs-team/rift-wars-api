@@ -6,6 +6,7 @@ import { PlayerAlreadyExistsError } from './errors/player-already-exists.error'
 import { HashGenerator } from '../cryptography/hash-generator'
 import { Player } from '../../enterprise/entities/player'
 import { type UseCase } from '@/core/protocols/use-case'
+import { randomUUID } from 'crypto'
 
 interface CreatePlayerParams {
   email: string
@@ -38,6 +39,7 @@ export class CreatePlayerUseCase implements UseCase {
 
     const player = Player.create({
       email,
+      riotPuuid: randomUUID(),
       riotId,
       password: hashedPassword
     })

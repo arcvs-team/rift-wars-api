@@ -7,7 +7,7 @@ export interface HttpRequest {
 
 export interface HttpResponse<T> {
   statusCode: number
-  body?: T
+  body: T
 }
 
 export interface HttpClient {

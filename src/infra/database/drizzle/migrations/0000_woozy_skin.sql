@@ -39,8 +39,9 @@ CREATE TABLE IF NOT EXISTS "riot_game_results" (
 CREATE TABLE IF NOT EXISTS "riot_tournament_providers" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"provider_id" integer NOT NULL,
-	"char" "char" NOT NULL,
+	"region" "char" NOT NULL,
 	"url" varchar(256) NOT NULL,
+	"is_active" boolean DEFAULT false,
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS "tournament_teams" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tournaments" (
 	"id" uuid PRIMARY KEY NOT NULL,
-	"riot_provider_id" integer NOT NULL,
+	"provider_id" uuid NOT NULL,
 	"riot_tournament_id" integer NOT NULL,
 	"name" varchar(256) NOT NULL,
 	"description" text,
@@ -193,7 +194,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "tournaments" ADD CONSTRAINT "tournaments_riot_provider_id_riot_tournament_providers_provider_id_fk" FOREIGN KEY ("riot_provider_id") REFERENCES "riot_tournament_providers"("provider_id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "tournaments" ADD CONSTRAINT "tournaments_provider_id_riot_tournament_providers_id_fk" FOREIGN KEY ("provider_id") REFERENCES "riot_tournament_providers"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

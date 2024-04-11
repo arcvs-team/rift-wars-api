@@ -1,5 +1,5 @@
 {
-  "id": "35facc09-1ade-47aa-8e23-9d52a594e81e",
+  "id": "98163048-f82c-4cb7-b09b-b6b4a96884a9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -296,8 +296,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "char": {
-          "name": "char",
+        "region": {
+          "name": "region",
           "type": "char",
           "primaryKey": false,
           "notNull": true
@@ -307,6 +307,13 @@
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "created_at": {
           "name": "created_at",
@@ -697,9 +704,9 @@
           "primaryKey": true,
           "notNull": true
         },
-        "riot_provider_id": {
-          "name": "riot_provider_id",
-          "type": "integer",
+        "provider_id": {
+          "name": "provider_id",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -787,15 +794,15 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tournaments_riot_provider_id_riot_tournament_providers_provider_id_fk": {
-          "name": "tournaments_riot_provider_id_riot_tournament_providers_provider_id_fk",
+        "tournaments_provider_id_riot_tournament_providers_id_fk": {
+          "name": "tournaments_provider_id_riot_tournament_providers_id_fk",
           "tableFrom": "tournaments",
           "tableTo": "riot_tournament_providers",
           "columnsFrom": [
-            "riot_provider_id"
+            "provider_id"
           ],
           "columnsTo": [
-            "provider_id"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"

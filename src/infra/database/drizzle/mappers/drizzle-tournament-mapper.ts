@@ -6,6 +6,8 @@ export class DrizzleTournamentMapper {
   static toDomain (raw: DrizzleTournament): Tournament {
     return Tournament.create({
       name: raw.name,
+      providerId: new UniqueEntityID(raw.providerId),
+      riotTournamentId: raw.riotTournamentId,
       description: raw.description ?? undefined,
       rules: raw.rules ?? undefined,
       startDate: raw.startDate ?? undefined,
@@ -24,6 +26,8 @@ export class DrizzleTournamentMapper {
     return {
       id: tournament.id.toString(),
       name: tournament.name,
+      providerId: tournament.providerId.toString(),
+      riotTournamentId: tournament.riotTournamentId,
       description: tournament.description ?? null,
       rules: tournament.rules ?? null,
       startDate: tournament.startDate ?? null,

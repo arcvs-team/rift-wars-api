@@ -48,6 +48,6 @@ export class TournamentResolver {
       return ApolloTournamentMapper.toApollo(result.value.tournament)
     }
 
-    throw new GraphQLError('Internal server error.')
+    throw new GraphQLError(result.value.message ?? 'Internal server error.')
   }
 }

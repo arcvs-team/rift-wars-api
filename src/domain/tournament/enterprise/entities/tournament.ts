@@ -4,6 +4,8 @@ import { type Optional } from '@/core/types/optional'
 
 export interface TournamentAttributes {
   name: string
+  providerId: UniqueEntityID
+  riotTournamentId: number
   description?: string
   rules?: string
   startDate?: Date
@@ -20,6 +22,14 @@ export interface TournamentAttributes {
 export class Tournament extends Entity<TournamentAttributes> {
   get name () {
     return this.attributes.name
+  }
+
+  get providerId () {
+    return this.attributes.providerId
+  }
+
+  get riotTournamentId () {
+    return this.attributes.riotTournamentId
   }
 
   get description () {

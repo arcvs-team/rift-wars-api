@@ -1,4 +1,4 @@
-import { index, char, bigint, text, integer, uniqueIndex, pgTable, timestamp, varchar, uuid } from 'drizzle-orm/pg-core'
+import { boolean, char, bigint, text, integer, uniqueIndex, pgTable, timestamp, varchar, uuid } from 'drizzle-orm/pg-core'
 
 export const players = pgTable('players', {
   id: uuid('id').primaryKey(),
@@ -46,7 +46,7 @@ export type DrizzleTeamPlayerInvite = typeof teamPlayerInvites.$inferSelect
 
 export const tournaments = pgTable('tournaments', {
   id: uuid('id').primaryKey(),
-  riotProviderId: integer('riot_provider_id').notNull().references(() => riotTournamentProviders.providerId),
+  providerId: uuid('provider_id').notNull().references(() => riotTournamentProviders.id),
   riotTournamentId: integer('riot_tournament_id').notNull(),
   name: varchar('name', { length: 256 }).notNull(),
   description: text('description'),
@@ -115,10 +115,9 @@ export type DrizzleRiotGameResult = typeof riotGameResults.$inferSelect
 export const riotTournamentProviders = pgTable('riot_tournament_providers', {
   id: uuid('id').primaryKey(),
   providerId: integer('provider_id').notNull(),
-  char: char('char').notNull(),
+  region: char('region').notNull(),
   url: varchar('url', { length: 256 }).notNull(),
+  isActive: boolean('is_active').default(false),
   createdAt: timestamp('created_at').defaultNow()
-}, (riotTournamentProviders) => ({
-  providerIdIndex: index('provider_id_idx').on(riotTournamentProviders.providerId)
-}))
+})
 export type DrizzleRiotTournamentProvider = typeof riotTournamentProviders.$inferSelect
