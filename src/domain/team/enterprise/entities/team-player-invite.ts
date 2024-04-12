@@ -36,6 +36,14 @@ export class TeamPlayerInvite extends Entity<TeamPlayerInviteAttributes> {
     return this.attributes.invitedBy
   }
 
+  acceptInvite () {
+    this.attributes.acceptedAt = new Date()
+  }
+
+  rejectInvite () {
+    this.attributes.rejectedAt = new Date()
+  }
+
   static create (attributes: Optional<TeamPlayerInviteAttributes, 'invitedAt' | 'acceptedAt' | 'rejectedAt'>, id?: UniqueEntityID): TeamPlayerInvite {
     const teamPlayerInvite = new TeamPlayerInvite(
       {

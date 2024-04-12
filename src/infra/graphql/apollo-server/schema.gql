@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input AcceptTeamPlayerInviteInput {
+  teamPlayerInviteId: String!
+}
+
 type AccessTokenModel {
   accessToken: String!
 }
@@ -43,6 +47,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTimeISO
 
 type Mutation {
+  acceptInvite(data: AcceptTeamPlayerInviteInput!): TeamPlayerInviteModel!
   createInvite(data: CreateTeamPlayerInviteInput!): TeamPlayerInviteModel!
   createPlayer(data: CreatePlayerInput!): PlayerModel!
   createTeam(data: CreateTeamInput!): TeamModel!
@@ -61,6 +66,7 @@ type Query {
   auth(data: AuthenticateInput!): AccessTokenModel!
   player: [PlayerModel!]!
   team: [TeamModel!]!
+  teamInvites: [TeamPlayerInviteModel!]!
   tournament: [TournamentModel!]!
 }
 
