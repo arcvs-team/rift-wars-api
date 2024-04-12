@@ -18,7 +18,7 @@ export class TeamPlayerInviteModel {
     rejectedAt: Date
 
   @Field()
-    createdAt: Date
+    invitedAt: Date
 
   @Field()
     invitedBy: string

@@ -7,6 +7,7 @@ import { type GraphQLSchema } from 'graphql'
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import type http from 'http'
+import { TeamPlayerInviteResolver } from './resolvers/team-player-invite.resolver'
 
 export class ApolloGraphQLServer {
   private schema: GraphQLSchema
@@ -22,7 +23,8 @@ export class ApolloGraphQLServer {
       resolvers: [
         PlayerResolver,
         TeamResolver,
-        TournamentResolver
+        TournamentResolver,
+        TeamPlayerInviteResolver
       ],
       emitSchemaFile: path.resolve(__dirname, 'schema.gql')
     })
