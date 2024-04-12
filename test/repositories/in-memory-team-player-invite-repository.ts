@@ -8,6 +8,10 @@ export class InMemoryTeamPlayerInviteRepository implements TeamPlayerInviteRepos
     return this.items.find((teamPlayerInvite) => teamPlayerInvite.playerId.toString() === playerId && teamPlayerInvite.teamId.toString() === teamId) ?? null
   }
 
+  async findManyByPlayerId (playerId: string): Promise<TeamPlayerInvite[]> {
+    return this.items.filter((teamPlayerInvite) => teamPlayerInvite.playerId.toString() === playerId)
+  }
+
   async create (teamPlayerInvite: TeamPlayerInvite): Promise<void> {
     this.items.push(teamPlayerInvite)
   }

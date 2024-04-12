@@ -23,6 +23,14 @@ export class DrizzleTeamPlayerInviteRepository implements TeamPlayerInviteReposi
     return DrizzleTeamPlayerInviteMapper.toDomain(result[0])
   }
 
+  async findManyByPlayerId (playerId: string): Promise<TeamPlayerInvite[]> {
+    const result = await db.select().from(teamPlayerInvites).where(
+      eq(teamPlayerInvites.playerId, playerId)
+    )
+
+    return result.map(DrizzleTeamPlayerInviteMapper.toDomain)
+  }
+
   async create (teamPlayerInvite: TeamPlayerInvite): Promise<void> {
     const data = DrizzleTeamPlayerInviteMapper.toPersistence(teamPlayerInvite)
     await db.insert(teamPlayerInvites).values(data)
