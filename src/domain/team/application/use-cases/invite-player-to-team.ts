@@ -18,7 +18,7 @@ interface InvitePlayerToTeamParams {
   invitedBy: string
 }
 
-type InvitePlayerToTeamResult = Either<PlayerAlreadyOnTeamError | InvitesRestrictedToCaptainsError | PlayerAlreadyInvitedError | PlayerNotFoundError | TeamNotFoundError, null>
+type InvitePlayerToTeamResult = Either<PlayerAlreadyOnTeamError | InvitesRestrictedToCaptainsError | PlayerAlreadyInvitedError | PlayerNotFoundError, null>
 
 @injectable()
 export class InvitePlayerToTeamUseCase implements UseCase {
