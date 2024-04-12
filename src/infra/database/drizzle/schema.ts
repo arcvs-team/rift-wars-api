@@ -57,12 +57,22 @@ export const tournaments = pgTable('tournaments', {
   winnerTeamId: uuid('winner_team_id').references(() => teams.id),
   minTeams: integer('min_teams'),
   maxTeams: integer('max_teams'),
+  stages: integer('stages'),
   status: text('status', { enum: ['draft', 'public', 'finished'] }).default('draft'),
   createdBy: uuid('created_by').notNull().references(() => players.id),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow()
 })
 export type DrizzleTournament = typeof tournaments.$inferSelect
+
+export const tournamentStages = pgTable('tournament_stages', {
+  id: uuid('id').primaryKey(),
+  tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
+  stage: integer('stage'),
+  createdAt: timestamp('created_at').defaultNow(),
+  finishedAt: timestamp('finished_at')
+})
+export type DrizzleTournamentStage = typeof tournamentStages.$inferSelect
 
 export const tournamentTabs = pgTable('tournament_tabs', {
   id: uuid('id').primaryKey(),
@@ -86,11 +96,12 @@ export type DrizzleTournamentTeam = typeof tournamentTeams.$inferSelect
 export const matches = pgTable('matches', {
   id: uuid('id').primaryKey(),
   tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
+  tournamentStageId: uuid('tournament_stage_id').notNull().references(() => tournamentStages.id),
   riotTournamentCode: varchar('riot_tournament_code', { length: 256 }).notNull(),
   blueTeamId: uuid('blue_team_id').notNull().references(() => teams.id),
   redTeamId: uuid('red_team_id').notNull().references(() => teams.id),
-  blueTeamScore: integer('blue_team_score'),
-  redTeamScore: integer('red_team_score'),
+  blueTeamScore: integer('blue_team_score').default(0),
+  redTeamScore: integer('red_team_score').default(0),
   riotMatchId: uuid('riot_match_id'),
   winnerTeamId: uuid('winner_team_id').references(() => teams.id),
   winCondition: text('win_condition', { enum: ['normal', 'wo', 'ff'] }),

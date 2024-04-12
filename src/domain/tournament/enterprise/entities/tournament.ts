@@ -13,6 +13,7 @@ export interface TournamentAttributes {
   winnerTeamId?: UniqueEntityID
   minTeams?: number
   maxTeams?: number
+  stages?: number
   status: 'draft' | 'public' | 'finished'
   createdBy: UniqueEntityID
   createdAt?: Date
@@ -58,6 +59,10 @@ export class Tournament extends Entity<TournamentAttributes> {
 
   get maxTeams () {
     return this.attributes.maxTeams
+  }
+
+  get stages () {
+    return this.attributes.stages
   }
 
   get status () {
