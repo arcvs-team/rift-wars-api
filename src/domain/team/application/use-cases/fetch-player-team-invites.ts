@@ -5,23 +5,23 @@ import { right, type Either } from '@/core/either'
 import { type TeamPlayerInvite } from '../../enterprise/entities/team-player-invite'
 import { TeamPlayerInviteRepository } from '@/domain/team/application/repositories/team-player-invite-repository'
 
-interface FetchPlayerTeamInvitesParams {
+interface FetchPlayerOpenTeamInvitesParams {
   playerId: string
 }
 
-type FetchPlayerTeamInvitesResult = Either<null, {
+type FetchPlayerOpenTeamInvitesResult = Either<null, {
   invites: TeamPlayerInvite[]
 }>
 
 @injectable()
-export class FetchPlayerTeamInvitesUseCase implements UseCase {
+export class FetchPlayerOpenTeamInvitesUseCase implements UseCase {
   constructor (
     @inject('TeamPlayerInviteRepository')
     private readonly teamPlayerInviteRepository: TeamPlayerInviteRepository
   ) {}
 
-  async execute ({ playerId }: FetchPlayerTeamInvitesParams): Promise<FetchPlayerTeamInvitesResult> {
-    const invites = await this.teamPlayerInviteRepository.findManyByPlayerId(playerId)
+  async execute ({ playerId }: FetchPlayerOpenTeamInvitesParams): Promise<FetchPlayerOpenTeamInvitesResult> {
+    const invites = await this.teamPlayerInviteRepository.findManyOpenByPlayerId(playerId)
 
     return right({
       invites

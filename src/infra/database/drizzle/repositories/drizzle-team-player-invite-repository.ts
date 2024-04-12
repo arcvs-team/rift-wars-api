@@ -4,7 +4,7 @@ import { DrizzleTeamPlayerInviteMapper } from '../mappers/drizzle-team-player-in
 import { db } from '../connection'
 import { teamPlayerInvites } from '../schema'
 import { injectable } from 'inversify'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, isNull } from 'drizzle-orm'
 
 @injectable()
 export class DrizzleTeamPlayerInviteRepository implements TeamPlayerInviteRepository {
@@ -23,9 +23,13 @@ export class DrizzleTeamPlayerInviteRepository implements TeamPlayerInviteReposi
     return DrizzleTeamPlayerInviteMapper.toDomain(result[0])
   }
 
-  async findManyByPlayerId (playerId: string): Promise<TeamPlayerInvite[]> {
+  async findManyOpenByPlayerId (playerId: string): Promise<TeamPlayerInvite[]> {
     const result = await db.select().from(teamPlayerInvites).where(
-      eq(teamPlayerInvites.playerId, playerId)
+      and(
+        eq(teamPlayerInvites.playerId, playerId),
+        isNull(teamPlayerInvites.acceptedAt),
+        isNull(teamPlayerInvites.rejectedAt)
+      )
     )
 
     return result.map(DrizzleTeamPlayerInviteMapper.toDomain)

@@ -2,6 +2,6 @@ import { type TeamPlayerInvite } from '../../enterprise/entities/team-player-inv
 
 export interface TeamPlayerInviteRepository {
   findByPlayerIdAndTeamId: (playerId: string, teamId: string) => Promise<TeamPlayerInvite | null>
-  findManyByPlayerId: (playerId: string) => Promise<TeamPlayerInvite[]>
+  findManyOpenByPlayerId: (playerId: string) => Promise<TeamPlayerInvite[]>
   create: (teamPlayerInvite: TeamPlayerInvite) => Promise<void>
 }

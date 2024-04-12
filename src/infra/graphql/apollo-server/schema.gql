@@ -61,6 +61,7 @@ type Query {
   auth(data: AuthenticateInput!): AccessTokenModel!
   player: [PlayerModel!]!
   team: [TeamModel!]!
+  teamInvites: [TeamPlayerInviteModel!]!
   tournament: [TournamentModel!]!
 }
 

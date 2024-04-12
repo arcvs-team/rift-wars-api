@@ -1,14 +1,14 @@
 import { InMemoryTeamPlayerInviteRepository } from 'test/repositories/in-memory-team-player-invite-repository'
-import { FetchPlayerTeamInvitesUseCase } from './fetch-player-team-invites'
 import { makeTeamPlayerInvite } from 'test/factories/make-team-player-invite'
+import { FetchPlayerOpenTeamInvitesUseCase } from '@/domain/team/application/use-cases/fetch-player-team-invites'
 
 describe('fetch player team invites', () => {
   let inMemoryTeamPlayerInviteRepository: InMemoryTeamPlayerInviteRepository
-  let sut: FetchPlayerTeamInvitesUseCase
+  let sut: FetchPlayerOpenTeamInvitesUseCase
 
   beforeEach(() => {
     inMemoryTeamPlayerInviteRepository = new InMemoryTeamPlayerInviteRepository()
-    sut = new FetchPlayerTeamInvitesUseCase(inMemoryTeamPlayerInviteRepository)
+    sut = new FetchPlayerOpenTeamInvitesUseCase(inMemoryTeamPlayerInviteRepository)
   })
 
   it('should return an empty array if no team player invites are found', async () => {
