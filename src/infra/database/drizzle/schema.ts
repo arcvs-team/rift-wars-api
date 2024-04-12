@@ -41,7 +41,7 @@ export const teamPlayerInvites = pgTable('team_player_invites', {
   acceptedAt: timestamp('accepted_at'),
   rejectedAt: timestamp('rejected_at'),
   invitedAt: timestamp('invited_at').defaultNow(),
-  invitedBy: uuid('invited_by').references(() => players.id)
+  invitedBy: uuid('invited_by').notNull().references(() => players.id)
 })
 export type DrizzleTeamPlayerInvite = typeof teamPlayerInvites.$inferSelect
 

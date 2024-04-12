@@ -22,6 +22,11 @@ input CreateTeamInput {
   name: String!
 }
 
+input CreateTeamPlayerInviteInput {
+  playerId: String!
+  teamId: String!
+}
+
 input CreateTournamentInput {
   description: String
   endDate: DateTimeISO
@@ -38,6 +43,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTimeISO
 
 type Mutation {
+  createInvite(data: CreateTeamPlayerInviteInput!): TeamPlayerInviteModel!
   createPlayer(data: CreatePlayerInput!): PlayerModel!
   createTeam(data: CreateTeamInput!): TeamModel!
   createTournament(data: CreateTournamentInput!): TournamentModel!
@@ -62,6 +68,16 @@ type TeamModel {
   createdAt: DateTimeISO!
   id: String!
   name: String!
+}
+
+type TeamPlayerInviteModel {
+  acceptedAt: DateTimeISO
+  id: String!
+  invitedAt: DateTimeISO!
+  invitedBy: String!
+  playerId: String!
+  rejectedAt: DateTimeISO
+  teamId: String!
 }
 
 type TournamentModel {
