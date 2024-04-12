@@ -7,15 +7,19 @@ import { Player } from '@/domain/player/enterprise/entities/player'
 import { GraphQLError } from 'graphql'
 import { ApolloTeamPlayerInviteMapper } from '../mappers/apollo-team-player-invite-mapper'
 import { type FetchPlayerOpenTeamInvitesUseCase } from '@/domain/team/application/use-cases/fetch-player-team-invites'
+import { AcceptTeamPlayerInviteInput } from '../dtos/inputs/accept-team-player-invite'
+import { type AcceptPlayerTeamInviteUseCase } from '@/domain/team/application/use-cases/accept-player-team-invite'
 
 @Resolver(TeamPlayerInviteModel)
 export class TeamPlayerInviteResolver {
   private readonly fetchPlayerOpenTeamInvitesUseCase: FetchPlayerOpenTeamInvitesUseCase
   private readonly invitePlayerToTeamUseCase: InvitePlayerToTeamUseCase
+  private readonly acceptPlayerTeamInviteUseCase: AcceptPlayerTeamInviteUseCase
 
   constructor () {
     this.fetchPlayerOpenTeamInvitesUseCase = container.get('FetchPlayerOpenTeamInvitesUseCase')
     this.invitePlayerToTeamUseCase = container.get('InvitePlayerToTeamUseCase')
+    this.acceptPlayerTeamInviteUseCase = container.get('AcceptPlayerTeamInviteUseCase')
   }
 
   @Query(() => [TeamPlayerInviteModel])
@@ -39,6 +43,22 @@ export class TeamPlayerInviteResolver {
       playerId: createTeamPlayerInviteInput.playerId,
       teamId: createTeamPlayerInviteInput.teamId,
       invitedBy: context.player.id.toString()
+    })
+
+    if (result.isRight()) {
+      return ApolloTeamPlayerInviteMapper.toApollo(result.value.invite)
+    }
+
+    throw new GraphQLError(result.value.message ?? 'Internal server error.')
+  }
+
+  @Mutation(() => TeamPlayerInviteModel)
+  async acceptInvite (@Arg('data') acceptTeamPlayerInviteInput: AcceptTeamPlayerInviteInput, @Ctx() context: { player?: Player }) {
+    if (!(context.player instanceof Player)) throw new GraphQLError('Unauthorized')
+
+    const result = await this.acceptPlayerTeamInviteUseCase.execute({
+      playerId: context.player.id.toString(),
+      teamPlayerInviteId: acceptTeamPlayerInviteInput.teamPlayerInviteId
     })
 
     if (result.isRight()) {
