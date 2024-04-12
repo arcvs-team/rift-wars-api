@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "npx tsc",
+    "build": "rimraf dist; npx tsc",
     "dev": "npx ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn --exit-child src/infra/main.ts",
     "db:generate": "npx drizzle-kit generate:pg",
     "db:migrate": "npx ts-node-dev src/infra/database/drizzle/migrate.ts",
@@ -34,6 +34,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "rimraf": "^5.0.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3",
     "vite-tsconfig-paths": "^4.3.1",
