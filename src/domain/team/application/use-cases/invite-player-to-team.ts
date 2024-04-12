@@ -7,11 +7,10 @@ import { PlayerNotFoundError } from './errors/player-not-found.error'
 import { TeamPlayerInviteRepository } from '../repositories/team-player-invite-repository'
 import { TeamPlayerInvite } from '../../enterprise/entities/team-player-invite'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { TeamRepository } from '../repositories/team-repository'
-import { TeamNotFoundError } from './errors/team-not-found.error'
 import { PlayerAlreadyInvitedError } from './errors/player-already-invited.error'
 import { TeamPlayerRepository } from '../repositories/team-player-repository'
 import { PlayerAlreadyOnTeamError } from './errors/player-already-on-team.error'
+import { InvitesRestrictedToCaptainsError } from '@/domain/team/application/use-cases/errors/invites-restricted-to-captains.error'
 
 interface InvitePlayerToTeamParams {
   playerId: string
@@ -19,7 +18,7 @@ interface InvitePlayerToTeamParams {
   invitedBy: string
 }
 
-type InvitePlayerToTeamResult = Either<PlayerAlreadyOnTeamError | PlayerAlreadyInvitedError | PlayerNotFoundError | TeamNotFoundError, null>
+type InvitePlayerToTeamResult = Either<PlayerAlreadyOnTeamError | InvitesRestrictedToCaptainsError | PlayerAlreadyInvitedError | PlayerNotFoundError | TeamNotFoundError, null>
 
 @injectable()
 export class InvitePlayerToTeamUseCase implements UseCase {
@@ -31,10 +30,7 @@ export class InvitePlayerToTeamUseCase implements UseCase {
     private readonly teamPlayerInviteRepository: TeamPlayerInviteRepository,
 
     @inject('PlayerRepository')
-    private readonly playerRepository: PlayerRepository,
-
-    @inject('TeamRepository')
-    private readonly teamRepository: TeamRepository
+    private readonly playerRepository: PlayerRepository
   ) {}
 
   async execute ({
@@ -42,6 +38,12 @@ export class InvitePlayerToTeamUseCase implements UseCase {
     teamId,
     invitedBy
   }: InvitePlayerToTeamParams): Promise<InvitePlayerToTeamResult> {
+    const invitedByCaptain = await this.teamPlayerRepository.findByPlayerIdAndTeamId(invitedBy, teamId)
+
+    if (invitedByCaptain === null || !invitedByCaptain.isCaptain) {
+      return left(new InvitesRestrictedToCaptainsError())
+    }
+
     const playerAlreadyInTeam = await this.teamPlayerRepository.findByPlayerIdAndTeamId(playerId, teamId)
 
     if (playerAlreadyInTeam) {
@@ -58,12 +60,6 @@ export class InvitePlayerToTeamUseCase implements UseCase {
 
     if (!player) {
       return left(new PlayerNotFoundError())
-    }
-
-    const team = await this.teamRepository.findById(teamId)
-
-    if (!team) {
-      return left(new TeamNotFoundError())
     }
 
     const teamPlayerInvite = TeamPlayerInvite.create({
