@@ -9,17 +9,21 @@ import { ApolloTeamPlayerInviteMapper } from '../mappers/apollo-team-player-invi
 import { type FetchPlayerOpenTeamInvitesUseCase } from '@/domain/team/application/use-cases/fetch-player-team-invites'
 import { AcceptTeamPlayerInviteInput } from '../dtos/inputs/accept-team-player-invite'
 import { type AcceptPlayerTeamInviteUseCase } from '@/domain/team/application/use-cases/accept-player-team-invite'
+import { type RejectPlayerTeamInviteUseCase } from '@/domain/team/application/use-cases/reject-player-team-invite'
+import { RejectTeamPlayerInviteInput } from '../dtos/inputs/reject-team-player-invite'
 
 @Resolver(TeamPlayerInviteModel)
 export class TeamPlayerInviteResolver {
   private readonly fetchPlayerOpenTeamInvitesUseCase: FetchPlayerOpenTeamInvitesUseCase
   private readonly invitePlayerToTeamUseCase: InvitePlayerToTeamUseCase
   private readonly acceptPlayerTeamInviteUseCase: AcceptPlayerTeamInviteUseCase
+  private readonly rejectPlayerTeamInviteUseCase: RejectPlayerTeamInviteUseCase
 
   constructor () {
     this.fetchPlayerOpenTeamInvitesUseCase = container.get('FetchPlayerOpenTeamInvitesUseCase')
     this.invitePlayerToTeamUseCase = container.get('InvitePlayerToTeamUseCase')
     this.acceptPlayerTeamInviteUseCase = container.get('AcceptPlayerTeamInviteUseCase')
+    this.rejectPlayerTeamInviteUseCase = container.get('RejectPlayerTeamInviteUseCase')
   }
 
   @Query(() => [TeamPlayerInviteModel])
@@ -59,6 +63,22 @@ export class TeamPlayerInviteResolver {
     const result = await this.acceptPlayerTeamInviteUseCase.execute({
       playerId: context.player.id.toString(),
       teamPlayerInviteId: acceptTeamPlayerInviteInput.teamPlayerInviteId
+    })
+
+    if (result.isRight()) {
+      return ApolloTeamPlayerInviteMapper.toApollo(result.value.invite)
+    }
+
+    throw new GraphQLError(result.value.message ?? 'Internal server error.')
+  }
+
+  @Mutation(() => TeamPlayerInviteModel)
+  async rejectInvite (@Arg('data') rejectTeamPlayerInviteInput: RejectTeamPlayerInviteInput, @Ctx() context: { player?: Player }) {
+    if (!(context.player instanceof Player)) throw new GraphQLError('Unauthorized')
+
+    const result = await this.rejectPlayerTeamInviteUseCase.execute({
+      playerId: context.player.id.toString(),
+      teamPlayerInviteId: rejectTeamPlayerInviteInput.teamPlayerInviteId
     })
 
     if (result.isRight()) {

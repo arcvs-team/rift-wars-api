@@ -23,6 +23,7 @@ import { DrizzleTeamPlayerInviteRepository } from '@/infra/database/drizzle/repo
 import { InvitePlayerToTeamUseCase } from '@/domain/team/application/use-cases/invite-player-to-team'
 import { FetchPlayerOpenTeamInvitesUseCase } from '@/domain/team/application/use-cases/fetch-player-team-invites'
 import { AcceptPlayerTeamInviteUseCase } from '@/domain/team/application/use-cases/accept-player-team-invite'
+import { RejectPlayerTeamInviteUseCase } from '@/domain/team/application/use-cases/reject-player-team-invite'
 
 const container = new Container()
 
@@ -47,6 +48,7 @@ container.bind('HandleFinishedGameUseCase').to(HandleFinishedGameUseCase)
 container.bind('InvitePlayerToTeamUseCase').to(InvitePlayerToTeamUseCase)
 container.bind('FetchPlayerOpenTeamInvitesUseCase').to(FetchPlayerOpenTeamInvitesUseCase)
 container.bind('AcceptPlayerTeamInviteUseCase').to(AcceptPlayerTeamInviteUseCase)
+container.bind('RejectPlayerTeamInviteUseCase').to(RejectPlayerTeamInviteUseCase)
 
 container.bind('HashComparer').to(BcryptHasher)
 container.bind('HashGenerator').to(BcryptHasher)

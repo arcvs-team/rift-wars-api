@@ -1,29 +1,26 @@
 import { InMemoryTeamPlayerInviteRepository } from 'test/repositories/in-memory-team-player-invite-repository'
-import { InMemoryTeamPlayerRepository } from 'test/repositories/in-memory-team-player-repository'
-import { AcceptPlayerTeamInviteUseCase } from './accept-player-team-invite'
 import { InviteNotFoundError } from './errors/invite-not-found.error'
 import { makeTeamPlayerInvite } from 'test/factories/make-team-player-invite'
 import { InviteNotValidError } from './errors/invite-not-valid.error'
+import { RejectPlayerTeamInviteUseCase } from './reject-player-team-invite'
 
-describe('accept player team invite', () => {
+describe('reject player team invite', () => {
   let inMemoryTeamPlayerInviteRepository: InMemoryTeamPlayerInviteRepository
-  let inMemoryTeamPlayerRepository: InMemoryTeamPlayerRepository
-  let sut: AcceptPlayerTeamInviteUseCase
+  let sut: RejectPlayerTeamInviteUseCase
 
   beforeEach(() => {
     inMemoryTeamPlayerInviteRepository = new InMemoryTeamPlayerInviteRepository()
-    inMemoryTeamPlayerRepository = new InMemoryTeamPlayerRepository()
-    sut = new AcceptPlayerTeamInviteUseCase(inMemoryTeamPlayerInviteRepository, inMemoryTeamPlayerRepository)
+    sut = new RejectPlayerTeamInviteUseCase(inMemoryTeamPlayerInviteRepository)
   })
 
-  it('should not be able to accept if the invite does not exists', async () => {
+  it('should not be able to reject if the invite does not exists', async () => {
     const result = await sut.execute({ playerId: '1', teamPlayerInviteId: '1' })
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(InviteNotFoundError)
   })
 
-  it('should not be able to accept a invite that has been already accepted', async () => {
+  it('should not be able to reject a invite that has been already accepted', async () => {
     const teamPlayerInvite = makeTeamPlayerInvite({ acceptedAt: new Date() })
     inMemoryTeamPlayerInviteRepository.create(teamPlayerInvite)
 
@@ -36,7 +33,7 @@ describe('accept player team invite', () => {
     expect(result.value).toBeInstanceOf(InviteNotValidError)
   })
 
-  it('should not be able to accept a invite that has been already rejected', async () => {
+  it('should not be able to reject a invite that has been already rejected', async () => {
     const teamPlayerInvite = makeTeamPlayerInvite({ rejectedAt: new Date() })
     inMemoryTeamPlayerInviteRepository.create(teamPlayerInvite)
 
@@ -49,7 +46,7 @@ describe('accept player team invite', () => {
     expect(result.value).toBeInstanceOf(InviteNotValidError)
   })
 
-  it('should not be able to accept a invite that is not from the player', async () => {
+  it('should not be able to reject a invite that is not from the player', async () => {
     const teamPlayerInvite = makeTeamPlayerInvite()
     inMemoryTeamPlayerInviteRepository.create(teamPlayerInvite)
 
@@ -62,7 +59,7 @@ describe('accept player team invite', () => {
     expect(result.value).toBeInstanceOf(InviteNotValidError)
   })
 
-  it('should be able to accept the invite', async () => {
+  it('should be able to reject the invite', async () => {
     const teamPlayerInvite = makeTeamPlayerInvite()
     inMemoryTeamPlayerInviteRepository.create(teamPlayerInvite)
 
@@ -72,8 +69,7 @@ describe('accept player team invite', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(inMemoryTeamPlayerInviteRepository.items[0].acceptedAt).toBeTruthy()
-    expect(inMemoryTeamPlayerInviteRepository.items[0].rejectedAt).toBe(undefined)
-    expect(inMemoryTeamPlayerRepository.items).toHaveLength(1)
+    expect(inMemoryTeamPlayerInviteRepository.items[0].rejectedAt).toBeTruthy()
+    expect(inMemoryTeamPlayerInviteRepository.items[0].acceptedAt).toBe(undefined)
   })
 })
