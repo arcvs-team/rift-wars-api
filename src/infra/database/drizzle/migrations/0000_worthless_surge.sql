@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS "teams" (
 CREATE TABLE IF NOT EXISTS "tournament_stages" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"tournament_id" uuid NOT NULL,
-	"stage" integer,
+	"stage" integer NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"finished_at" timestamp
 );
@@ -115,7 +115,8 @@ CREATE TABLE IF NOT EXISTS "tournaments" (
 	"status" text DEFAULT 'draft',
 	"created_by" uuid NOT NULL,
 	"created_at" timestamp DEFAULT now(),
-	"updated_at" timestamp DEFAULT now()
+	"updated_at" timestamp DEFAULT now(),
+	"canceled_at" timestamp
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "email_idx" ON "players" ("email");--> statement-breakpoint

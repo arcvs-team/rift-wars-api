@@ -19,7 +19,8 @@ export class DrizzleTournamentMapper {
       status: raw.status ?? undefined,
       createdBy: new UniqueEntityID(raw.createdBy),
       createdAt: raw.createdAt ?? undefined,
-      updatedAt: raw.updatedAt ?? undefined
+      updatedAt: raw.updatedAt ?? undefined,
+      canceledAt: raw.canceledAt ?? undefined
     })
   }
 
@@ -40,7 +41,8 @@ export class DrizzleTournamentMapper {
       status: tournament.status,
       createdBy: tournament.createdBy.toString(),
       createdAt: tournament.createdAt ?? null,
-      updatedAt: tournament.updatedAt ?? null
+      updatedAt: tournament.updatedAt ?? null,
+      canceledAt: tournament.canceledAt ?? null
     }
   }
 }

@@ -4,6 +4,10 @@ import { type Tournament } from '@/domain/tournament/enterprise/entities/tournam
 export class InMemoryTournamentRepository implements TournamentRepository {
   public items: Tournament[] = []
 
+  async findById (id: string): Promise<Tournament | null> {
+    return this.items.find(tournament => tournament.id.toString() === id) || null
+  }
+
   async findMany (): Promise<Tournament[]> {
     return this.items
   }

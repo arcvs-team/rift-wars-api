@@ -37,4 +37,7 @@ export class TournamentModel {
 
   @Field()
     createdAt: string
+
+  @Field({ nullable: true })
+    canceledAt: string
 }

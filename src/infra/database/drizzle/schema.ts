@@ -61,14 +61,15 @@ export const tournaments = pgTable('tournaments', {
   status: text('status', { enum: ['draft', 'public', 'finished'] }).default('draft'),
   createdBy: uuid('created_by').notNull().references(() => players.id),
   createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow()
+  updatedAt: timestamp('updated_at').defaultNow(),
+  canceledAt: timestamp('canceled_at')
 })
 export type DrizzleTournament = typeof tournaments.$inferSelect
 
 export const tournamentStages = pgTable('tournament_stages', {
   id: uuid('id').primaryKey(),
   tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
-  stage: integer('stage'),
+  stage: integer('stage').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   finishedAt: timestamp('finished_at')
 })

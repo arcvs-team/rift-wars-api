@@ -18,6 +18,7 @@ export interface TournamentAttributes {
   createdBy: UniqueEntityID
   createdAt?: Date
   updatedAt?: Date
+  canceledAt?: Date
 }
 
 export class Tournament extends Entity<TournamentAttributes> {
@@ -79,6 +80,22 @@ export class Tournament extends Entity<TournamentAttributes> {
 
   get updatedAt () {
     return this.attributes.updatedAt
+  }
+
+  get canceledAt () {
+    return this.attributes.canceledAt
+  }
+
+  hasStarted () {
+    return this.startDate && this.startDate <= new Date()
+  }
+
+  hasEnded () {
+    return !!this.endDate
+  }
+
+  isCanceled () {
+    return !!this.canceledAt
   }
 
   static create (

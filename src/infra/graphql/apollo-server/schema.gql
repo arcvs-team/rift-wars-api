@@ -92,6 +92,7 @@ type TeamPlayerInviteModel {
 }
 
 type TournamentModel {
+  canceledAt: String
   createdAt: String!
   createdBy: String!
   description: String
