@@ -9,12 +9,13 @@ import { TournamentIsCanceledError } from './errors/tournament-is-canceled'
 import { TournamentStageRepository } from '@/domain/tournament/application/repositories/tournament-stage-repository'
 import { TournamentStage } from '@/domain/tournament/enterprise/entities/tournament-stage'
 import { MatchRepository } from '../repositories/match-repository'
+import { TournamentStageHasUnfinishedMatchesError } from '@/domain/match/application/use-cases/errors/tournament-has-unfinished-matches.error'
 
 interface GenerateMatchesParams {
   tournamentId: string
 }
 
-type GenerateMatchesResult = Either<TournamentNotFoundError | TournamentNotStartedError | TournamentAlreadyEndedError, null>
+type GenerateMatchesResult = Either<TournamentNotFoundError | TournamentIsCanceledError | TournamentNotStartedError | TournamentAlreadyEndedError | TournamentStageHasUnfinishedMatchesError, null>
 
 @injectable()
 export class GenerateMatchesUseCase implements UseCase {
@@ -62,7 +63,7 @@ export class GenerateMatchesUseCase implements UseCase {
       const matches = await this.matchRepository.findManyByTournamentStageId(lastTournamentStage.id.toString())
 
       if (matches.some(match => !match.hasEnded())) {
-        return left(new TournamentNotStartedError())
+        return left(new TournamentStageHasUnfinishedMatchesError())
       }
 
       tournamentStage = TournamentStage.create({
