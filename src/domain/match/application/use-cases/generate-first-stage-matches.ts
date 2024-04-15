@@ -75,32 +75,30 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
 
     const matches: Match[] = []
 
-    if (tournament.stages === 0) {
-      const tournamentTeams = await this.tournamentTeamRepository.findManyByTournamentId(tournamentId)
-      const shuffledTournamentTeams = this.shuffleArray<TournamentTeam>(tournamentTeams)
+    const tournamentTeams = await this.tournamentTeamRepository.findManyByTournamentId(tournamentId)
+    const shuffledTournamentTeams = this.shuffleArray<TournamentTeam>(tournamentTeams)
 
-      if (tournamentTeams.length % 2 !== 0) {
-        const teamWithWoWin = shuffledTournamentTeams.shift()!
-        matches.push(Match.create({
-          tournamentId: tournament.id,
-          tournamentStageId: tournamentStage.id,
-          riotTournamentCode: '',
-          blueTeamId: teamWithWoWin.teamId,
-          blueTeamScore: 1,
-          winnerTeamId: teamWithWoWin.teamId,
-          winCondition: 'wo'
-        }))
-      }
+    if (tournamentTeams.length % 2 !== 0) {
+      const teamWithWoWin = shuffledTournamentTeams.shift()!
+      matches.push(Match.create({
+        tournamentId: tournament.id,
+        tournamentStageId: tournamentStage.id,
+        riotTournamentCode: '',
+        blueTeamId: teamWithWoWin.teamId,
+        blueTeamScore: 1,
+        winnerTeamId: teamWithWoWin.teamId,
+        winCondition: 'wo'
+      }))
+    }
 
-      for (let i = 0; i < shuffledTournamentTeams.length; i += 2) {
-        matches.push(Match.create({
-          tournamentId: tournament.id,
-          tournamentStageId: tournamentStage.id,
-          riotTournamentCode: '',
-          blueTeamId: shuffledTournamentTeams[i].teamId,
-          redTeamId: shuffledTournamentTeams[i + 1].teamId
-        }))
-      }
+    for (let i = 0; i < shuffledTournamentTeams.length; i += 2) {
+      matches.push(Match.create({
+        tournamentId: tournament.id,
+        tournamentStageId: tournamentStage.id,
+        riotTournamentCode: '',
+        blueTeamId: shuffledTournamentTeams[i].teamId,
+        redTeamId: shuffledTournamentTeams[i + 1].teamId
+      }))
     }
 
     const matchPromises: Array<Promise<void>> = []
