@@ -8,6 +8,11 @@ import { DrizzleMatchMapper } from '../mappers/drizzle-match-mapper'
 
 @injectable()
 export class DrizzleMatchRepository implements MatchRepository {
+  async create (match: Match): Promise<void> {
+    const data = DrizzleMatchMapper.toPersistence(match)
+    await db.insert(matches).values(data)
+  }
+
   async findManyByTournamentStageId (tournamentStageId: string): Promise<Match[]> {
     const result = await db.select().from(matches).where(
       eq(matches.tournamentStageId, tournamentStageId)
