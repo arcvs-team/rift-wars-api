@@ -1,5 +1,5 @@
 {
-  "id": "f6ed40d3-72d5-4c5f-8698-55d8f89ddb92",
+  "id": "7b183a0f-e521-44de-9dc4-23c9a3714b59",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -319,7 +319,7 @@
         },
         "region": {
           "name": "region",
-          "type": "char",
+          "type": "char(10)",
           "primaryKey": false,
           "notNull": true
         },

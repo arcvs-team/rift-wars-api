@@ -128,7 +128,7 @@ export type DrizzleRiotGameResult = typeof riotGameResults.$inferSelect
 export const riotTournamentProviders = pgTable('riot_tournament_providers', {
   id: uuid('id').primaryKey(),
   providerId: integer('provider_id').notNull(),
-  region: char('region').notNull(),
+  region: char('region', { length: 10 }).notNull(),
   url: varchar('url', { length: 256 }).notNull(),
   isActive: boolean('is_active').default(false),
   createdAt: timestamp('created_at').defaultNow()

@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS "riot_game_results" (
 CREATE TABLE IF NOT EXISTS "riot_tournament_providers" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"provider_id" integer NOT NULL,
-	"region" "char" NOT NULL,
+	"region" char(10) NOT NULL,
 	"url" varchar(256) NOT NULL,
 	"is_active" boolean DEFAULT false,
 	"created_at" timestamp DEFAULT now()
