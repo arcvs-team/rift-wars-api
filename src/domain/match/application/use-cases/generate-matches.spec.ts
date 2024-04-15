@@ -8,6 +8,9 @@ import { TournamentIsCanceledError } from './errors/tournament-is-canceled'
 import { makeTournament } from 'test/factories/make-tournament'
 import { TournamentNotStartedError } from './errors/tournament-not-started.error'
 import { TournamentAlreadyEndedError } from './errors/tournament-already-ended.error'
+import { makeTournamentStage } from 'test/factories/make-tournament-stage'
+import { TournamentStageHasUnfinishedMatchesError } from '@/domain/match/application/use-cases/errors/tournament-has-unfinished-matches.error'
+import { makeMatch } from 'test/factories/make-match'
 
 describe('generate matches', () => {
   let inMemoryTournamentRepository: InMemoryTournamentRepository
@@ -68,5 +71,42 @@ describe('generate matches', () => {
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(TournamentAlreadyEndedError)
+  })
+
+  it('should thrown an error if the tournament stage count matches the current tournament stage', async () => {
+    const tournament = makeTournament({
+      startDate: new Date(),
+      status: 'started',
+      stages: 1
+    })
+    inMemoryTournamentRepository.create(tournament)
+    const tournamentStage = makeTournamentStage({ tournamentId: tournament.id })
+    inMemoryTournamentStageRepository.create(tournamentStage)
+
+    const result = await sut.execute({ tournamentId: tournament.id.toString() })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(TournamentAlreadyEndedError)
+  })
+
+  it('should thrown an error if the previous tournament stage has unfinished matches', async () => {
+    const tournament = makeTournament({
+      startDate: new Date(),
+      status: 'started',
+      stages: 2
+    })
+    inMemoryTournamentRepository.create(tournament)
+    const tournamentStage = makeTournamentStage({ tournamentId: tournament.id })
+    inMemoryTournamentStageRepository.create(tournamentStage)
+    const match = makeMatch({
+      tournamentId: tournament.id,
+      tournamentStageId: tournamentStage.id
+    })
+    inMemoryMatchRepository.create(match)
+
+    const result = await sut.execute({ tournamentId: tournament.id.toString() })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(TournamentStageHasUnfinishedMatchesError)
   })
 })
