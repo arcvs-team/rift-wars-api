@@ -70,6 +70,10 @@ export class Tournament extends Entity<TournamentAttributes> {
     return this.attributes.stages
   }
 
+  set stages (stages) {
+    this.attributes.stages = stages
+  }
+
   get status () {
     return this.attributes.status
   }

@@ -109,6 +109,9 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
 
     await Promise.all(matchPromises)
 
+    tournament.stages = Math.ceil(Math.log2(tournamentTeams.length))
+    await this.tournamentRepository.save(tournament)
+
     return right(null)
   }
 
