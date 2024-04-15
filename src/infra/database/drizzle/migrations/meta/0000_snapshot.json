@@ -1,5 +1,5 @@
 {
-  "id": "9d6c2d6b-c05a-464d-9dcb-064b7b492157",
+  "id": "31827248-2184-4927-ab69-59af54ed29f7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -42,7 +42,7 @@
           "name": "red_team_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "blue_team_score": {
           "name": "blue_team_score",

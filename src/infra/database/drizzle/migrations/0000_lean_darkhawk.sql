@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS "matches" (
 	"tournament_stage_id" uuid NOT NULL,
 	"riot_tournament_code" varchar(256) NOT NULL,
 	"blue_team_id" uuid NOT NULL,
-	"red_team_id" uuid NOT NULL,
+	"red_team_id" uuid,
 	"blue_team_score" integer DEFAULT 0,
 	"red_team_score" integer DEFAULT 0,
 	"riot_match_id" uuid,

@@ -7,7 +7,7 @@ export interface MatchAttributes {
   tournamentStageId: UniqueEntityID
   riotTournamentCode: string
   blueTeamId: UniqueEntityID
-  redTeamId: UniqueEntityID
+  redTeamId?: UniqueEntityID
   blueTeamScore?: number
   redTeamScore?: number
   riotMatchId?: string
@@ -66,13 +66,14 @@ export class Match extends Entity<MatchAttributes> {
   }
 
   static create (
-    attributes: Optional<MatchAttributes, 'createdAt' | 'blueTeamScore' | 'redTeamScore' | 'riotMatchId' | 'winnerTeamId' | 'winCondition'>,
+    attributes: Optional<MatchAttributes, 'createdAt' | 'redTeamId' | 'blueTeamScore' | 'redTeamScore' | 'riotMatchId' | 'winnerTeamId' | 'winCondition'>,
     id?: UniqueEntityID
   ) {
     const match = new Match(
       {
         ...attributes,
         createdAt: attributes.createdAt ?? new Date(),
+        redTeamId: attributes.redTeamId ?? undefined,
         blueTeamScore: attributes.blueTeamScore ?? 0,
         redTeamScore: attributes.redTeamScore ?? 0,
         riotMatchId: attributes.riotMatchId ?? undefined,

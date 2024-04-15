@@ -100,7 +100,7 @@ export const matches = pgTable('matches', {
   tournamentStageId: uuid('tournament_stage_id').notNull().references(() => tournamentStages.id),
   riotTournamentCode: varchar('riot_tournament_code', { length: 256 }).notNull(),
   blueTeamId: uuid('blue_team_id').notNull().references(() => teams.id),
-  redTeamId: uuid('red_team_id').notNull().references(() => teams.id),
+  redTeamId: uuid('red_team_id').references(() => teams.id),
   blueTeamScore: integer('blue_team_score').default(0),
   redTeamScore: integer('red_team_score').default(0),
   riotMatchId: uuid('riot_match_id'),
