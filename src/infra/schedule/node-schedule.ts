@@ -21,7 +21,9 @@ export async function startSchedule () {
       const generateMatchesResult = await generateFirstStageMatchesUseCase.execute({
         tournamentId: tournament.id.toString()
       })
-      console.log(generateMatchesResult)
+      if (generateMatchesResult.isLeft()) {
+        console.error('Error on generate matches', generateMatchesResult.value)
+      }
     }
   })
 }
