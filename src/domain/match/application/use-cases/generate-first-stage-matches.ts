@@ -10,16 +10,16 @@ import { TournamentIsCanceledError } from './errors/tournament-is-canceled'
 import { TournamentStageRepository } from '@/domain/tournament/application/repositories/tournament-stage-repository'
 import { TournamentStage } from '@/domain/tournament/enterprise/entities/tournament-stage'
 import { MatchRepository } from '../repositories/match-repository'
-import { TournamentStageHasUnfinishedMatchesError } from '@/domain/match/application/use-cases/errors/tournament-has-unfinished-matches.error'
 import { TournamentTeamRepository } from '@/domain/team/application/repositories/tournament-team-repository'
 import { type TournamentTeam } from '@/domain/team/enterprise/entities/tournament-team'
 import { Match } from '../../enterprise/entities/match'
+import { TournamentHaveStagesError } from '@/domain/match/application/use-cases/errors/tournament-have-stages.error'
 
 interface GenerateFirstStageMatchesParams {
   tournamentId: string
 }
 
-type GenerateFirstStageMatchesResult = Either<TournamentNotFoundError | TournamentIsCanceledError | TournamentNotStartedError | TournamentAlreadyEndedError | TournamentStageHasUnfinishedMatchesError, null>
+type GenerateFirstStageMatchesResult = Either<TournamentNotFoundError | TournamentIsCanceledError | TournamentNotStartedError | TournamentAlreadyEndedError | TournamentHaveStagesError, null>
 
 @injectable()
 export class GenerateFirstStageMatchesUseCase implements UseCase {
@@ -62,31 +62,16 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
       return left(new TournamentAlreadyEndedError())
     }
 
-    let tournamentStage: TournamentStage
-
     if (tournamentStages.length !== 0) {
-      const lastTournamentStage = tournamentStages[tournamentStages.length - 1]
-
-      const matches = await this.matchRepository.findManyByTournamentStageId(lastTournamentStage.id.toString())
-
-      if (matches.some(match => !match.hasEnded())) {
-        return left(new TournamentStageHasUnfinishedMatchesError())
-      }
-
-      tournamentStage = TournamentStage.create({
-        tournamentId: tournament.id,
-        stage: lastTournamentStage.stage + 1
-      })
+      return left(new TournamentHaveStagesError())
     }
 
-    if (tournamentStages.length === 0) {
-      tournamentStage = TournamentStage.create({
-        tournamentId: tournament.id,
-        stage: 1
-      })
+    const tournamentStage = TournamentStage.create({
+      tournamentId: tournament.id,
+      stage: 1
+    })
 
-      await this.tournamentStageRepository.create(tournamentStage)
-    }
+    await this.tournamentStageRepository.create(tournamentStage)
 
     const matches: Match[] = []
 

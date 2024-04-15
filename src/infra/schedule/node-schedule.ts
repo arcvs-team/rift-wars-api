@@ -4,7 +4,7 @@ import { type StartTournamentsUseCase } from '@/domain/tournament/application/us
 import { type GenerateFirstStageMatchesUseCase } from '@/domain/match/application/use-cases/generate-first-stage-matches'
 
 const startTournamentUseCase: StartTournamentsUseCase = container.get('StartTournamentUseCase')
-const generateMatchesUseCase: GenerateFirstStageMatchesUseCase = container.get('GenerateFirstStageMatchesUseCase')
+const generateFirstStageMatchesUseCase: GenerateFirstStageMatchesUseCase = container.get('GenerateFirstStageMatchesUseCase')
 
 export async function startSchedule () {
   schedule.scheduleJob('* * * * *', async () => {
@@ -18,7 +18,7 @@ export async function startSchedule () {
     const { tournaments } = startTournamentsResult.value
 
     for (const tournament of tournaments) {
-      const generateMatchesResult = await generateMatchesUseCase.execute({
+      const generateMatchesResult = await generateFirstStageMatchesUseCase.execute({
         tournamentId: tournament.id.toString()
       })
       console.log(generateMatchesResult)

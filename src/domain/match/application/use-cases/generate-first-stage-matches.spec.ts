@@ -8,9 +8,9 @@ import { makeTournament } from 'test/factories/make-tournament'
 import { TournamentNotStartedError } from './errors/tournament-not-started.error'
 import { TournamentAlreadyEndedError } from './errors/tournament-already-ended.error'
 import { makeTournamentStage } from 'test/factories/make-tournament-stage'
-import { TournamentStageHasUnfinishedMatchesError } from '@/domain/match/application/use-cases/errors/tournament-has-unfinished-matches.error'
 import { makeMatch } from 'test/factories/make-match'
 import { GenerateFirstStageMatchesUseCase } from '@/domain/match/application/use-cases/generate-first-stage-matches'
+import { TournamentHaveStagesError } from './errors/tournament-have-stages.error'
 
 describe('generate matches', () => {
   let inMemoryTournamentRepository: InMemoryTournamentRepository
@@ -89,7 +89,7 @@ describe('generate matches', () => {
     expect(result.value).toBeInstanceOf(TournamentAlreadyEndedError)
   })
 
-  it('should thrown an error if the previous tournament stage has unfinished matches', async () => {
+  it('should thrown an error if there is any tournament stages', async () => {
     const tournament = makeTournament({
       startDate: new Date(),
       status: 'started',
@@ -107,6 +107,6 @@ describe('generate matches', () => {
     const result = await sut.execute({ tournamentId: tournament.id.toString() })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(TournamentStageHasUnfinishedMatchesError)
+    expect(result.value).toBeInstanceOf(TournamentHaveStagesError)
   })
 })
