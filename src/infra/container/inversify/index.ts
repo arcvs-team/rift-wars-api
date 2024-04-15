@@ -67,5 +67,6 @@ container.bind('HttpClient').to(AxiosHttpClient)
 
 container.bind('FetchMatch').to(RiotApiServices)
 container.bind('CreateTournament').to(RiotApiServices)
+container.bind('CreateTournamentCode').to(RiotApiServices)
 
 export { container }

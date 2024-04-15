@@ -5,9 +5,10 @@ import { HttpClient } from '../http-client/http-client'
 import { type FetchMatch } from '@/domain/tournament/application/riot/fetch-match'
 import { type MatchData } from '@/domain/tournament/models/match-data'
 import { type CreateTournamentParams, type CreateTournament } from '@/domain/tournament/application/riot/create-tournament'
+import { type CreateTournamentCodeParams, type CreateTournamentCode } from '@/domain/match/application/riot/create-tournament-code'
 
 @injectable()
-export class RiotApiServices implements FetchMatch, CreateTournament {
+export class RiotApiServices implements FetchMatch, CreateTournament, CreateTournamentCode {
   constructor (
     @inject('HttpClient')
     private readonly httpClient: HttpClient
@@ -35,6 +36,23 @@ export class RiotApiServices implements FetchMatch, CreateTournament {
       body: {
         name,
         providerId
+      }
+    })
+
+    return response.body
+  }
+
+  async createTournamentCode ({ query, body }: CreateTournamentCodeParams): Promise<string[]> {
+    const response = await this.httpClient.request<string[]>({
+      url: `${process.env.RIOT_BASE_URL}/lol/tournament${process.env.NODE_ENV === 'production' ? '' : '-stub'}/v5/codes`,
+      method: 'post',
+      headers: {
+        'X-Riot-Token': process.env.RIOT_API_KEY
+      },
+      body,
+      queryParams: {
+        count: String(query.count),
+        tournamentId: String(query.tournamentId)
       }
     })
 

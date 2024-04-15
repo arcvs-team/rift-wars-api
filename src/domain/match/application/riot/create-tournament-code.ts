@@ -19,5 +19,5 @@ export interface CreateTournamentCodeParams {
 }
 
 export interface CreateTournamentCode {
-  createTournament: (data: CreateTournamentCodeParams) => Promise<string[]>
+  createTournamentCode: (data: CreateTournamentCodeParams) => Promise<string[]>
 }
