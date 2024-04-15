@@ -58,7 +58,7 @@ export const tournaments = pgTable('tournaments', {
   minTeams: integer('min_teams'),
   maxTeams: integer('max_teams'),
   stages: integer('stages'),
-  status: text('status', { enum: ['draft', 'public', 'finished'] }).default('draft'),
+  status: text('status', { enum: ['draft', 'public', 'started', 'finished'] }).default('draft'),
   createdBy: uuid('created_by').notNull().references(() => players.id),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),

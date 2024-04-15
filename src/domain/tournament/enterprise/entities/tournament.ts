@@ -14,7 +14,7 @@ export interface TournamentAttributes {
   minTeams?: number
   maxTeams?: number
   stages?: number
-  status: 'draft' | 'public' | 'finished'
+  status: 'draft' | 'public' | 'started' | 'finished'
   createdBy: UniqueEntityID
   createdAt?: Date
   updatedAt?: Date
