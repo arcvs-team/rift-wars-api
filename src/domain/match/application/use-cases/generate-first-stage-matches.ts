@@ -15,14 +15,14 @@ import { TournamentTeamRepository } from '@/domain/team/application/repositories
 import { type TournamentTeam } from '@/domain/team/enterprise/entities/tournament-team'
 import { Match } from '../../enterprise/entities/match'
 
-interface GenerateMatchesParams {
+interface GenerateFirstStageMatchesParams {
   tournamentId: string
 }
 
-type GenerateMatchesResult = Either<TournamentNotFoundError | TournamentIsCanceledError | TournamentNotStartedError | TournamentAlreadyEndedError | TournamentStageHasUnfinishedMatchesError, null>
+type GenerateFirstStageMatchesResult = Either<TournamentNotFoundError | TournamentIsCanceledError | TournamentNotStartedError | TournamentAlreadyEndedError | TournamentStageHasUnfinishedMatchesError, null>
 
 @injectable()
-export class GenerateMatchesUseCase implements UseCase {
+export class GenerateFirstStageMatchesUseCase implements UseCase {
   constructor (
     @inject('TournamentRepository')
     private readonly tournamentRepository: TournamentRepository,
@@ -37,7 +37,7 @@ export class GenerateMatchesUseCase implements UseCase {
     private readonly tournamentTeamRepository: TournamentTeamRepository
   ) {}
 
-  async execute ({ tournamentId }: GenerateMatchesParams): Promise<GenerateMatchesResult> {
+  async execute ({ tournamentId }: GenerateFirstStageMatchesParams): Promise<GenerateFirstStageMatchesResult> {
     const tournament = await this.tournamentRepository.findById(tournamentId)
 
     if (!tournament) {

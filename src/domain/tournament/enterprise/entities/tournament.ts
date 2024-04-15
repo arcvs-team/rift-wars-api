@@ -50,6 +50,10 @@ export class Tournament extends Entity<TournamentAttributes> {
     return this.attributes.endDate
   }
 
+  set endDate (date) {
+    this.attributes.endDate = date
+  }
+
   get winnerTeamId () {
     return this.attributes.winnerTeamId
   }
@@ -112,6 +116,7 @@ export class Tournament extends Entity<TournamentAttributes> {
 
   cancel () {
     this.canceledAt = new Date()
+    this.endDate = new Date()
     this.status = 'finished'
   }
 

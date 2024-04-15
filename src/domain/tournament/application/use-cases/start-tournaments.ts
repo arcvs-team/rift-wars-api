@@ -27,7 +27,7 @@ export class StartTournamentsUseCase implements UseCase {
     for (const tournament of publicTournaments) {
       const teams = await this.tournamentTeamRepository.findManyByTournamentId(tournament.id.toString())
 
-      if (tournament.minTeams && teams.length < tournament.minTeams) {
+      if (tournament.minTeams !== undefined && teams.length < tournament.minTeams) {
         tournament.cancel()
         await this.tournamentRepository.save(tournament)
         continue

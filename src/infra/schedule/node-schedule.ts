@@ -1,13 +1,13 @@
 import schedule from 'node-schedule'
 import { container } from '../container/inversify'
 import { type StartTournamentsUseCase } from '@/domain/tournament/application/use-cases/start-tournaments'
-import { type GenerateMatchesUseCase } from '@/domain/match/application/use-cases/generate-matches'
+import { type GenerateFirstStageMatchesUseCase } from '@/domain/match/application/use-cases/generate-first-stage-matches'
 
 const startTournamentUseCase: StartTournamentsUseCase = container.get('StartTournamentUseCase')
-const generateMatchesUseCase: GenerateMatchesUseCase = container.get('GenerateMatchesUseCase')
+const generateMatchesUseCase: GenerateFirstStageMatchesUseCase = container.get('GenerateFirstStageMatchesUseCase')
 
 export async function startSchedule () {
-  schedule.scheduleJob('*/30 * * * *', async () => {
+  schedule.scheduleJob('* * * * *', async () => {
     const startTournamentsResult = await startTournamentUseCase.execute()
 
     if (startTournamentsResult.isLeft()) {

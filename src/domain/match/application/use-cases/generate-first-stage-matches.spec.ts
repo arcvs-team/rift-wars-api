@@ -2,7 +2,6 @@ import { InMemoryMatchRepository } from 'test/repositories/in-memory-match-repos
 import { InMemoryTournamentRepository } from 'test/repositories/in-memory-tournament-repository'
 import { InMemoryTournamentStageRepository } from 'test/repositories/in-memory-tournament-stage-repository'
 import { InMemoryTournamentTeamRepository } from 'test/repositories/in-memory-tournament-team-repository'
-import { GenerateMatchesUseCase } from './generate-matches'
 import { TournamentNotFoundError } from './errors/tournament-not-found.error'
 import { TournamentIsCanceledError } from './errors/tournament-is-canceled'
 import { makeTournament } from 'test/factories/make-tournament'
@@ -11,20 +10,21 @@ import { TournamentAlreadyEndedError } from './errors/tournament-already-ended.e
 import { makeTournamentStage } from 'test/factories/make-tournament-stage'
 import { TournamentStageHasUnfinishedMatchesError } from '@/domain/match/application/use-cases/errors/tournament-has-unfinished-matches.error'
 import { makeMatch } from 'test/factories/make-match'
+import { GenerateFirstStageMatchesUseCase } from '@/domain/match/application/use-cases/generate-first-stage-matches'
 
 describe('generate matches', () => {
   let inMemoryTournamentRepository: InMemoryTournamentRepository
   let inMemoryTournamentStageRepository: InMemoryTournamentStageRepository
   let inMemoryMatchRepository: InMemoryMatchRepository
   let inMemoryTournamentTeamRepository: InMemoryTournamentTeamRepository
-  let sut: GenerateMatchesUseCase
+  let sut: GenerateFirstStageMatchesUseCase
 
   beforeEach(() => {
     inMemoryTournamentRepository = new InMemoryTournamentRepository()
     inMemoryTournamentStageRepository = new InMemoryTournamentStageRepository()
     inMemoryMatchRepository = new InMemoryMatchRepository()
     inMemoryTournamentTeamRepository = new InMemoryTournamentTeamRepository()
-    sut = new GenerateMatchesUseCase(inMemoryTournamentRepository, inMemoryTournamentStageRepository, inMemoryMatchRepository, inMemoryTournamentTeamRepository)
+    sut = new GenerateFirstStageMatchesUseCase(inMemoryTournamentRepository, inMemoryTournamentStageRepository, inMemoryMatchRepository, inMemoryTournamentTeamRepository)
   })
 
   it('should throw an error if the tournament did not exists', async () => {
