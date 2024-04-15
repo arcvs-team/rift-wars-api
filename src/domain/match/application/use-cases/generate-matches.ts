@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { left, right, type Either } from '@/core/either'
 import { type UseCase } from '@/core/protocols/use-case'
 import { TournamentRepository } from '@/domain/tournament/application/repositories/tournament-repository'
@@ -47,12 +48,12 @@ export class GenerateMatchesUseCase implements UseCase {
       return left(new TournamentIsCanceledError())
     }
 
-    if (!tournament.hasStarted()) {
-      return left(new TournamentNotStartedError())
-    }
-
     if (tournament.hasEnded()) {
       return left(new TournamentAlreadyEndedError())
+    }
+
+    if (!tournament.hasStarted()) {
+      return left(new TournamentNotStartedError())
     }
 
     const tournamentStages = await this.tournamentStageRepository.findManyByTournamentId(tournamentId)
