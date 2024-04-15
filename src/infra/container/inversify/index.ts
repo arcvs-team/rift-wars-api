@@ -28,6 +28,7 @@ import { GenerateMatchesUseCase } from '@/domain/match/application/use-cases/gen
 import { DrizzleTournamentStageRepository } from '@/infra/database/drizzle/repositories/drizzle-tournament-stage-repository'
 import { DrizzleMatchRepository } from '@/infra/database/drizzle/repositories/drizzle-match-repository'
 import { DrizzleTournamentTeamRepository } from '@/infra/database/drizzle/repositories/drizzle-tournament-team-repository'
+import { StartTournamentsUseCase } from '@/domain/tournament/application/use-cases/start-tournaments'
 
 const container = new Container()
 
@@ -57,6 +58,7 @@ container.bind('FetchPlayerOpenTeamInvitesUseCase').to(FetchPlayerOpenTeamInvite
 container.bind('AcceptPlayerTeamInviteUseCase').to(AcceptPlayerTeamInviteUseCase)
 container.bind('RejectPlayerTeamInviteUseCase').to(RejectPlayerTeamInviteUseCase)
 container.bind('GenerateMatchesUseCase').to(GenerateMatchesUseCase)
+container.bind('StartTournamentUseCase').to(StartTournamentsUseCase)
 
 container.bind('HashComparer').to(BcryptHasher)
 container.bind('HashGenerator').to(BcryptHasher)

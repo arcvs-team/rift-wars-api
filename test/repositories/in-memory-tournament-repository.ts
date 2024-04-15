@@ -12,7 +12,16 @@ export class InMemoryTournamentRepository implements TournamentRepository {
     return this.items
   }
 
+  async findManyPublic (): Promise<Tournament[]> {
+    return this.items.filter(tournament => tournament.status === 'public')
+  }
+
   async create (tournament: Tournament): Promise<void> {
     this.items.push(tournament)
+  }
+
+  async save (tournament: Tournament): Promise<void> {
+    const index = this.items.findIndex((item) => item.id.toString() === tournament.id.toString())
+    this.items[index] = tournament
   }
 }

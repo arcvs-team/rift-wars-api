@@ -25,8 +25,23 @@ export class DrizzleTournamentRepository implements TournamentRepository {
     return result.map(DrizzleTournamentMapper.toDomain)
   }
 
+  async findManyPublic (): Promise<Tournament[]> {
+    const result = await db.select().from(tournaments).where(
+      eq(tournaments.status, 'public')
+    )
+
+    return result.map(DrizzleTournamentMapper.toDomain)
+  }
+
   async create (tournament: Tournament): Promise<void> {
     const data = DrizzleTournamentMapper.toPersistence(tournament)
     await db.insert(tournaments).values(data)
+  }
+
+  async save (tournament: Tournament): Promise<void> {
+    const data = DrizzleTournamentMapper.toPersistence(tournament)
+    await db.update(tournaments).set(data).where(
+      eq(tournaments.id, tournament.id.toString())
+    )
   }
 }

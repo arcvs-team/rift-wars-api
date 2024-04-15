@@ -70,6 +70,10 @@ export class Tournament extends Entity<TournamentAttributes> {
     return this.attributes.status
   }
 
+  set status (status) {
+    this.attributes.status = status
+  }
+
   get createdBy () {
     return this.attributes.createdBy
   }
@@ -86,16 +90,29 @@ export class Tournament extends Entity<TournamentAttributes> {
     return this.attributes.canceledAt
   }
 
+  set canceledAt (date) {
+    this.attributes.canceledAt = date
+  }
+
   hasStarted () {
-    return this.startDate && this.startDate <= new Date()
+    return this.status === 'started'
   }
 
   hasEnded () {
-    return !!this.endDate
+    return this.status === 'finished'
   }
 
   isCanceled () {
-    return !!this.canceledAt
+    return this.status === 'finished' && !!this.canceledAt
+  }
+
+  start () {
+    this.status = 'started'
+  }
+
+  cancel () {
+    this.canceledAt = new Date()
+    this.status = 'finished'
   }
 
   static create (
