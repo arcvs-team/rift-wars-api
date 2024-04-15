@@ -4,7 +4,7 @@ import { tournaments } from '../schema'
 import { db } from '../connection'
 import { type TournamentRepository } from '@/domain/tournament/application/repositories/tournament-repository'
 import { type Tournament } from '@/domain/tournament/enterprise/entities/tournament'
-import { eq } from 'drizzle-orm'
+import { and, eq, lte } from 'drizzle-orm'
 
 @injectable()
 export class DrizzleTournamentRepository implements TournamentRepository {
@@ -25,9 +25,12 @@ export class DrizzleTournamentRepository implements TournamentRepository {
     return result.map(DrizzleTournamentMapper.toDomain)
   }
 
-  async findManyPublic (): Promise<Tournament[]> {
+  async findPublicTournamentsAfterNow (): Promise<Tournament[]> {
     const result = await db.select().from(tournaments).where(
-      eq(tournaments.status, 'public')
+      and(
+        eq(tournaments.status, 'public'),
+        lte(tournaments.startDate, new Date())
+      )
     )
 
     return result.map(DrizzleTournamentMapper.toDomain)

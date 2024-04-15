@@ -12,8 +12,8 @@ export class InMemoryTournamentRepository implements TournamentRepository {
     return this.items
   }
 
-  async findManyPublic (): Promise<Tournament[]> {
-    return this.items.filter(tournament => tournament.status === 'public')
+  async findPublicTournamentsAfterNow (): Promise<Tournament[]> {
+    return this.items.filter(tournament => tournament.status === 'public' && tournament.startDate && tournament.startDate <= new Date())
   }
 
   async create (tournament: Tournament): Promise<void> {

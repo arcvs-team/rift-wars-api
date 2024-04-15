@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { right, type Either } from '@/core/either'
 import { type UseCase } from '@/core/protocols/use-case'
 import { inject, injectable } from 'inversify'
@@ -20,7 +21,7 @@ export class StartTournamentsUseCase implements UseCase {
   ) {}
 
   async execute (): Promise<StartTournamentsResult> {
-    const publicTournaments = await this.tournamentRepository.findManyPublic()
+    const publicTournaments = await this.tournamentRepository.findPublicTournamentsAfterNow()
     const startedTournaments: Tournament[] = []
 
     for (const tournament of publicTournaments) {

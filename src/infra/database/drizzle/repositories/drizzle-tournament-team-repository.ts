@@ -17,4 +17,9 @@ export class DrizzleTournamentTeamRepository implements TournamentTeamRepository
 
     return result.map(DrizzleTournamentTeamMapper.toDomain)
   }
+
+  async create (tournamentTeam: TournamentTeam): Promise<void> {
+    const data = DrizzleTournamentTeamMapper.toPersistence(tournamentTeam)
+    await db.insert(tournamentTeams).values(data)
+  }
 }

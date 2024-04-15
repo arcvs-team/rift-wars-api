@@ -7,4 +7,8 @@ export class InMemoryTournamentTeamRepository implements TournamentTeamRepositor
   async findManyByTournamentId (tournamentId: string): Promise<TournamentTeam[]> {
     return this.items.filter((item) => item.tournamentId.toString() === tournamentId)
   }
+
+  async create (tournamentTeam: TournamentTeam): Promise<void> {
+    this.items.push(tournamentTeam)
+  }
 }
