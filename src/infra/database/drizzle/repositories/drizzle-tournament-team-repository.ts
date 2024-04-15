@@ -4,7 +4,9 @@ import { db } from '../connection'
 import { tournamentTeams } from '../schema'
 import { eq } from 'drizzle-orm'
 import { DrizzleTournamentTeamMapper } from '../mappers/drizzle-tournament-team-mapper'
+import { injectable } from 'inversify'
 
+@injectable()
 export class DrizzleTournamentTeamRepository implements TournamentTeamRepository {
   async findManyByTournamentId (tournamentId: string): Promise<TournamentTeam[]> {
     const result = await db.select().from(tournamentTeams).where(
