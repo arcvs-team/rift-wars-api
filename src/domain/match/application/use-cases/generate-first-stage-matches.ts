@@ -83,7 +83,6 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
         const teamWithWoWin = shuffledTournamentTeams.shift()!
         matches.push(Match.create({
           tournamentId: tournament.id,
-          // @ts-expect-error it was assigned already
           tournamentStageId: tournamentStage.id,
           riotTournamentCode: '',
           blueTeamId: teamWithWoWin.teamId,
@@ -96,7 +95,6 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
       for (let i = 0; i < shuffledTournamentTeams.length; i += 2) {
         matches.push(Match.create({
           tournamentId: tournament.id,
-          // @ts-expect-error it was assigned already
           tournamentStageId: tournamentStage.id,
           riotTournamentCode: '',
           blueTeamId: shuffledTournamentTeams[i].teamId,
