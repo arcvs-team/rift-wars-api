@@ -8,7 +8,7 @@ export class DrizzleMatchMapper {
       {
         tournamentId: new UniqueEntityID(raw.tournamentId),
         tournamentStageId: new UniqueEntityID(raw.tournamentStageId),
-        riotTournamentCode: raw.riotTournamentCode,
+        riotTournamentCode: raw.riotTournamentCode ?? undefined,
         blueTeamId: new UniqueEntityID(raw.blueTeamId),
         redTeamId: raw.redTeamId ? new UniqueEntityID(raw.redTeamId) : undefined,
         blueTeamScore: raw.blueTeamScore ?? undefined,
@@ -27,7 +27,7 @@ export class DrizzleMatchMapper {
       id: team.id.toString(),
       tournamentId: team.tournamentId.toString(),
       tournamentStageId: team.tournamentStageId.toString(),
-      riotTournamentCode: team.riotTournamentCode,
+      riotTournamentCode: team.riotTournamentCode ?? null,
       blueTeamId: team.blueTeamId.toString(),
       redTeamId: team.redTeamId ? team.redTeamId.toString() : null,
       blueTeamScore: team.blueTeamScore ?? null,

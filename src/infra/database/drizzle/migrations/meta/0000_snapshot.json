@@ -1,5 +1,5 @@
 {
-  "id": "7b183a0f-e521-44de-9dc4-23c9a3714b59",
+  "id": "3faf9c26-6c12-4fcc-ba14-8dd6158fdad7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -30,7 +30,7 @@
           "name": "riot_tournament_code",
           "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "blue_team_id": {
           "name": "blue_team_id",

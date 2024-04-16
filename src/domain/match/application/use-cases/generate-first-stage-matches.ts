@@ -14,6 +14,11 @@ import { TournamentTeamRepository } from '@/domain/team/application/repositories
 import { type TournamentTeam } from '@/domain/team/enterprise/entities/tournament-team'
 import { Match } from '../../enterprise/entities/match'
 import { TournamentHaveStagesError } from '@/domain/match/application/use-cases/errors/tournament-have-stages.error'
+import { CreateTournamentCode } from '../riot/create-tournament-code'
+import { shuffleArray } from '@/core/utils/shuffle-array'
+import { TeamPlayerRepository } from '@/domain/team/application/repositories/team-player-repository'
+import { type Player } from '@/domain/player/enterprise/entities/player'
+import { PlayerRepository } from '@/domain/player/application/repositories/player-repository'
 
 interface GenerateFirstStageMatchesParams {
   tournamentId: string
@@ -34,7 +39,16 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
     private readonly matchRepository: MatchRepository,
 
     @inject('TournamentTeamRepository')
-    private readonly tournamentTeamRepository: TournamentTeamRepository
+    private readonly tournamentTeamRepository: TournamentTeamRepository,
+
+    @inject('TeamPlayerRepository')
+    private readonly teamPlayerRepository: TeamPlayerRepository,
+
+    @inject('PlayerRepository')
+    private readonly playerRepository: PlayerRepository,
+
+    @inject('CreateTournamentCode')
+    private readonly createTournamentCodeService: CreateTournamentCode
   ) {}
 
   async execute ({ tournamentId }: GenerateFirstStageMatchesParams): Promise<GenerateFirstStageMatchesResult> {
@@ -76,14 +90,13 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
     const matches: Match[] = []
 
     const tournamentTeams = await this.tournamentTeamRepository.findManyByTournamentId(tournamentId)
-    const shuffledTournamentTeams = this.shuffleArray<TournamentTeam>(tournamentTeams)
+    const shuffledTournamentTeams = shuffleArray<TournamentTeam>(tournamentTeams)
 
     if (tournamentTeams.length % 2 !== 0) {
       const teamWithWoWin = shuffledTournamentTeams.shift()!
       matches.push(Match.create({
         tournamentId: tournament.id,
         tournamentStageId: tournamentStage.id,
-        riotTournamentCode: '',
         blueTeamId: teamWithWoWin.teamId,
         blueTeamScore: 1,
         winnerTeamId: teamWithWoWin.teamId,
@@ -92,10 +105,37 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
     }
 
     for (let i = 0; i < shuffledTournamentTeams.length; i += 2) {
+      const blueTeamPlayers = await this.teamPlayerRepository.findManyByTeamId(shuffledTournamentTeams[i].teamId.toString())
+      const redTeamPlayers = await this.teamPlayerRepository.findManyByTeamId(shuffledTournamentTeams[i].teamId.toString())
+      const teamPlayers = blueTeamPlayers.concat(redTeamPlayers)
+
+      const playersRiotPuuid: string[] = []
+
+      for (const teamPlayer of teamPlayers) {
+        const player = (await this.playerRepository.findById(teamPlayer.playerId.toString()))!
+        playersRiotPuuid.push(player.riotPuuid)
+      }
+
+      const riotTournamentCodes = await this.createTournamentCodeService.createTournamentCode({
+        body: {
+          allowedParticipants: playersRiotPuuid,
+          metadata: '',
+          teamSize: 5,
+          pickType: 'TOURNAMENT_DRAFT',
+          mapType: 'SUMMONERS_RIFT',
+          spectatorType: 'NONE',
+          enoughPlayers: true
+        },
+        query: {
+          count: 1,
+          tournamentId: tournament.riotTournamentId
+        }
+      })
+
       matches.push(Match.create({
         tournamentId: tournament.id,
         tournamentStageId: tournamentStage.id,
-        riotTournamentCode: '',
+        riotTournamentCode: riotTournamentCodes[0],
         blueTeamId: shuffledTournamentTeams[i].teamId,
         redTeamId: shuffledTournamentTeams[i + 1].teamId
       }))
@@ -113,13 +153,5 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
     await this.tournamentRepository.save(tournament)
 
     return right(null)
-  }
-
-  shuffleArray<T> (array: T[]) {
-    function compare () {
-      return Math.random() - 0.5
-    }
-
-    return array.sort(compare)
   }
 }

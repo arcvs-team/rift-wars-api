@@ -13,10 +13,6 @@ export class DrizzleTournamentTeamRepository implements TournamentTeamRepository
       eq(tournamentTeams.tournamentId, tournamentId)
     )
 
-    if (result.length === 0) {
-      return []
-    }
-
     return result.map(DrizzleTournamentTeamMapper.toDomain)
   }
 

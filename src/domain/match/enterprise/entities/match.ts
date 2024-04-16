@@ -5,7 +5,7 @@ import { type Optional } from '@/core/types/optional'
 export interface MatchAttributes {
   tournamentId: UniqueEntityID
   tournamentStageId: UniqueEntityID
-  riotTournamentCode: string
+  riotTournamentCode?: string
   blueTeamId: UniqueEntityID
   redTeamId?: UniqueEntityID
   blueTeamScore?: number

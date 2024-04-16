@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS "matches" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"tournament_id" uuid NOT NULL,
 	"tournament_stage_id" uuid NOT NULL,
-	"riot_tournament_code" varchar(256) NOT NULL,
+	"riot_tournament_code" varchar(256),
 	"blue_team_id" uuid NOT NULL,
 	"red_team_id" uuid,
 	"blue_team_score" integer DEFAULT 0,
