@@ -12,12 +12,16 @@ import { makeMatch } from 'test/factories/make-match'
 import { GenerateFirstStageMatchesUseCase } from '@/domain/match/application/use-cases/generate-first-stage-matches'
 import { TournamentHaveStagesError } from './errors/tournament-have-stages.error'
 import { FakeRiotApiServices } from 'test/riot/fake-riot-api-services'
+import { InMemoryTeamPlayerRepository } from 'test/repositories/in-memory-team-player-repository'
+import { InMemoryPlayerRepository } from 'test/repositories/in-memory-player-repository'
 
 describe('generate matches', () => {
   let inMemoryTournamentRepository: InMemoryTournamentRepository
   let inMemoryTournamentStageRepository: InMemoryTournamentStageRepository
   let inMemoryMatchRepository: InMemoryMatchRepository
   let inMemoryTournamentTeamRepository: InMemoryTournamentTeamRepository
+  let inMemoryTeamPlayerRepository: InMemoryTeamPlayerRepository
+  let inMemoryPlayerRepository: InMemoryPlayerRepository
   let fakeCreateTournamentCodeService: FakeRiotApiServices
   let sut: GenerateFirstStageMatchesUseCase
 
@@ -26,6 +30,8 @@ describe('generate matches', () => {
     inMemoryTournamentStageRepository = new InMemoryTournamentStageRepository()
     inMemoryMatchRepository = new InMemoryMatchRepository()
     inMemoryTournamentTeamRepository = new InMemoryTournamentTeamRepository()
+    inMemoryTeamPlayerRepository = new InMemoryTeamPlayerRepository()
+    inMemoryPlayerRepository = new InMemoryPlayerRepository()
     fakeCreateTournamentCodeService = new FakeRiotApiServices()
 
     sut = new GenerateFirstStageMatchesUseCase(
@@ -33,6 +39,8 @@ describe('generate matches', () => {
       inMemoryTournamentStageRepository,
       inMemoryMatchRepository,
       inMemoryTournamentTeamRepository,
+      inMemoryTeamPlayerRepository,
+      inMemoryPlayerRepository,
       fakeCreateTournamentCodeService
     )
   })
