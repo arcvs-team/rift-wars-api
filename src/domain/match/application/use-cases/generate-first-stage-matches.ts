@@ -17,7 +17,6 @@ import { TournamentHaveStagesError } from '@/domain/match/application/use-cases/
 import { CreateTournamentCode } from '../riot/create-tournament-code'
 import { shuffleArray } from '@/core/utils/shuffle-array'
 import { TeamPlayerRepository } from '@/domain/team/application/repositories/team-player-repository'
-import { type Player } from '@/domain/player/enterprise/entities/player'
 import { PlayerRepository } from '@/domain/player/application/repositories/player-repository'
 
 interface GenerateFirstStageMatchesParams {
