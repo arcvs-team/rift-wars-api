@@ -3,5 +3,5 @@ export function shuffleArray<T> (array: T[]) {
     return Math.random() - 0.5
   }
 
-  return array.sort(compare)
+  return [...array].sort(compare)
 }
