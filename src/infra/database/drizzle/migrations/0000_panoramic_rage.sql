@@ -1,11 +1,12 @@
 CREATE TABLE IF NOT EXISTS "matches" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"tournament_id" uuid NOT NULL,
-	"riot_tournament_code" varchar(256) NOT NULL,
+	"tournament_stage_id" uuid NOT NULL,
+	"riot_tournament_code" varchar(256),
 	"blue_team_id" uuid NOT NULL,
-	"red_team_id" uuid NOT NULL,
-	"blue_team_score" integer,
-	"red_team_score" integer,
+	"red_team_id" uuid,
+	"blue_team_score" integer DEFAULT 0,
+	"red_team_score" integer DEFAULT 0,
 	"riot_match_id" uuid,
 	"winner_team_id" uuid,
 	"win_condition" text,
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS "riot_game_results" (
 CREATE TABLE IF NOT EXISTS "riot_tournament_providers" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"provider_id" integer NOT NULL,
-	"region" "char" NOT NULL,
+	"region" char(10) NOT NULL,
 	"url" varchar(256) NOT NULL,
 	"is_active" boolean DEFAULT false,
 	"created_at" timestamp DEFAULT now()
@@ -73,6 +74,14 @@ CREATE TABLE IF NOT EXISTS "teams" (
 	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "tournament_stages" (
+	"id" uuid PRIMARY KEY NOT NULL,
+	"tournament_id" uuid NOT NULL,
+	"stage" integer NOT NULL,
+	"created_at" timestamp DEFAULT now(),
+	"finished_at" timestamp
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tournament_tabs" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"tournament_id" uuid NOT NULL,
@@ -102,16 +111,24 @@ CREATE TABLE IF NOT EXISTS "tournaments" (
 	"winner_team_id" uuid,
 	"min_teams" integer,
 	"max_teams" integer,
+	"stages" integer,
 	"status" text DEFAULT 'draft',
 	"created_by" uuid NOT NULL,
 	"created_at" timestamp DEFAULT now(),
-	"updated_at" timestamp DEFAULT now()
+	"updated_at" timestamp DEFAULT now(),
+	"canceled_at" timestamp
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "email_idx" ON "players" ("email");--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "riot_id_idx" ON "players" ("riot_id");--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "matches" ADD CONSTRAINT "matches_tournament_id_tournaments_id_fk" FOREIGN KEY ("tournament_id") REFERENCES "tournaments"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "matches" ADD CONSTRAINT "matches_tournament_stage_id_tournament_stages_id_fk" FOREIGN KEY ("tournament_stage_id") REFERENCES "tournament_stages"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -172,6 +189,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "teams" ADD CONSTRAINT "teams_created_by_players_id_fk" FOREIGN KEY ("created_by") REFERENCES "players"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "tournament_stages" ADD CONSTRAINT "tournament_stages_tournament_id_tournaments_id_fk" FOREIGN KEY ("tournament_id") REFERENCES "tournaments"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

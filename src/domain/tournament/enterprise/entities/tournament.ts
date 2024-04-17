@@ -13,10 +13,12 @@ export interface TournamentAttributes {
   winnerTeamId?: UniqueEntityID
   minTeams?: number
   maxTeams?: number
-  status: 'draft' | 'public' | 'finished'
+  stages?: number
+  status: 'draft' | 'public' | 'started' | 'finished'
   createdBy: UniqueEntityID
   createdAt?: Date
   updatedAt?: Date
+  canceledAt?: Date
 }
 
 export class Tournament extends Entity<TournamentAttributes> {
@@ -48,6 +50,10 @@ export class Tournament extends Entity<TournamentAttributes> {
     return this.attributes.endDate
   }
 
+  set endDate (date) {
+    this.attributes.endDate = date
+  }
+
   get winnerTeamId () {
     return this.attributes.winnerTeamId
   }
@@ -60,8 +66,20 @@ export class Tournament extends Entity<TournamentAttributes> {
     return this.attributes.maxTeams
   }
 
+  get stages () {
+    return this.attributes.stages
+  }
+
+  set stages (stages) {
+    this.attributes.stages = stages
+  }
+
   get status () {
     return this.attributes.status
+  }
+
+  set status (status) {
+    this.attributes.status = status
   }
 
   get createdBy () {
@@ -74,6 +92,36 @@ export class Tournament extends Entity<TournamentAttributes> {
 
   get updatedAt () {
     return this.attributes.updatedAt
+  }
+
+  get canceledAt () {
+    return this.attributes.canceledAt
+  }
+
+  set canceledAt (date) {
+    this.attributes.canceledAt = date
+  }
+
+  hasStarted () {
+    return this.status === 'started'
+  }
+
+  hasEnded () {
+    return this.status === 'finished'
+  }
+
+  isCanceled () {
+    return this.status === 'finished' && !!this.canceledAt
+  }
+
+  start () {
+    this.status = 'started'
+  }
+
+  cancel () {
+    this.canceledAt = new Date()
+    this.endDate = new Date()
+    this.status = 'finished'
   }
 
   static create (

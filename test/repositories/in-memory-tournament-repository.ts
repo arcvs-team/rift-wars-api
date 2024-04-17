@@ -4,11 +4,24 @@ import { type Tournament } from '@/domain/tournament/enterprise/entities/tournam
 export class InMemoryTournamentRepository implements TournamentRepository {
   public items: Tournament[] = []
 
+  async findById (id: string): Promise<Tournament | null> {
+    return this.items.find(tournament => tournament.id.toString() === id) || null
+  }
+
   async findMany (): Promise<Tournament[]> {
     return this.items
   }
 
+  async findPublicTournamentsAfterNow (): Promise<Tournament[]> {
+    return this.items.filter(tournament => tournament.status === 'public' && tournament.startDate && tournament.startDate <= new Date())
+  }
+
   async create (tournament: Tournament): Promise<void> {
     this.items.push(tournament)
+  }
+
+  async save (tournament: Tournament): Promise<void> {
+    const index = this.items.findIndex((item) => item.id.toString() === tournament.id.toString())
+    this.items[index] = tournament
   }
 }

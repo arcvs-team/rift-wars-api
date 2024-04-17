@@ -1,5 +1,5 @@
 {
-  "id": "30bb927e-1344-46fa-9c55-75c40ab28e63",
+  "id": "3faf9c26-6c12-4fcc-ba14-8dd6158fdad7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -20,11 +20,17 @@
           "primaryKey": false,
           "notNull": true
         },
+        "tournament_stage_id": {
+          "name": "tournament_stage_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
         "riot_tournament_code": {
           "name": "riot_tournament_code",
           "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "blue_team_id": {
           "name": "blue_team_id",
@@ -36,19 +42,21 @@
           "name": "red_team_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "blue_team_score": {
           "name": "blue_team_score",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": 0
         },
         "red_team_score": {
           "name": "red_team_score",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": 0
         },
         "riot_match_id": {
           "name": "riot_match_id",
@@ -84,6 +92,19 @@
           "tableTo": "tournaments",
           "columnsFrom": [
             "tournament_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "matches_tournament_stage_id_tournament_stages_id_fk": {
+          "name": "matches_tournament_stage_id_tournament_stages_id_fk",
+          "tableFrom": "matches",
+          "tableTo": "tournament_stages",
+          "columnsFrom": [
+            "tournament_stage_id"
           ],
           "columnsTo": [
             "id"
@@ -298,7 +319,7 @@
         },
         "region": {
           "name": "region",
-          "type": "char",
+          "type": "char(10)",
           "primaryKey": false,
           "notNull": true
         },
@@ -571,6 +592,61 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "tournament_stages": {
+      "name": "tournament_stages",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tournament_id": {
+          "name": "tournament_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stage": {
+          "name": "stage",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "finished_at": {
+          "name": "finished_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tournament_stages_tournament_id_tournaments_id_fk": {
+          "name": "tournament_stages_tournament_id_tournaments_id_fk",
+          "tableFrom": "tournament_stages",
+          "tableTo": "tournaments",
+          "columnsFrom": [
+            "tournament_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "tournament_tabs": {
       "name": "tournament_tabs",
       "schema": "",
@@ -771,6 +847,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "stages": {
+          "name": "stages",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "status": {
           "name": "status",
           "type": "text",
@@ -797,6 +879,12 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+        },
+        "canceled_at": {
+          "name": "canceled_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},

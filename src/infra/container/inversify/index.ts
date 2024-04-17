@@ -24,6 +24,11 @@ import { InvitePlayerToTeamUseCase } from '@/domain/team/application/use-cases/i
 import { FetchPlayerOpenTeamInvitesUseCase } from '@/domain/team/application/use-cases/fetch-player-team-invites'
 import { AcceptPlayerTeamInviteUseCase } from '@/domain/team/application/use-cases/accept-player-team-invite'
 import { RejectPlayerTeamInviteUseCase } from '@/domain/team/application/use-cases/reject-player-team-invite'
+import { DrizzleTournamentStageRepository } from '@/infra/database/drizzle/repositories/drizzle-tournament-stage-repository'
+import { DrizzleMatchRepository } from '@/infra/database/drizzle/repositories/drizzle-match-repository'
+import { DrizzleTournamentTeamRepository } from '@/infra/database/drizzle/repositories/drizzle-tournament-team-repository'
+import { StartTournamentsUseCase } from '@/domain/tournament/application/use-cases/start-tournaments'
+import { GenerateFirstStageMatchesUseCase } from '@/domain/match/application/use-cases/generate-first-stage-matches'
 
 const container = new Container()
 
@@ -34,6 +39,9 @@ container.bind('TeamPlayerRepository').to(DrizzleTeamPlayerRepository)
 container.bind('TeamPlayerInviteRepository').to(DrizzleTeamPlayerInviteRepository)
 container.bind('RiotGameResultRepository').to(DrizzleRiotGameResultRepository)
 container.bind('RiotTournamentProviderRepository').to(DrizzleRiotTournamentProviderRepository)
+container.bind('TournamentStageRepository').to(DrizzleTournamentStageRepository)
+container.bind('MatchRepository').to(DrizzleMatchRepository)
+container.bind('TournamentTeamRepository').to(DrizzleTournamentTeamRepository)
 
 container.bind('CreatePlayerUseCase').to(CreatePlayerUseCase)
 container.bind('FetchPlayersUseCase').to(FetchPlayersUseCase)
@@ -49,6 +57,8 @@ container.bind('InvitePlayerToTeamUseCase').to(InvitePlayerToTeamUseCase)
 container.bind('FetchPlayerOpenTeamInvitesUseCase').to(FetchPlayerOpenTeamInvitesUseCase)
 container.bind('AcceptPlayerTeamInviteUseCase').to(AcceptPlayerTeamInviteUseCase)
 container.bind('RejectPlayerTeamInviteUseCase').to(RejectPlayerTeamInviteUseCase)
+container.bind('GenerateFirstStageMatchesUseCase').to(GenerateFirstStageMatchesUseCase)
+container.bind('StartTournamentUseCase').to(StartTournamentsUseCase)
 
 container.bind('HashComparer').to(BcryptHasher)
 container.bind('HashGenerator').to(BcryptHasher)
@@ -57,5 +67,6 @@ container.bind('HttpClient').to(AxiosHttpClient)
 
 container.bind('FetchMatch').to(RiotApiServices)
 container.bind('CreateTournament').to(RiotApiServices)
+container.bind('CreateTournamentCode').to(RiotApiServices)
 
 export { container }

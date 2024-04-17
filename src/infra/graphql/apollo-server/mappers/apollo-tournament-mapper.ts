@@ -15,7 +15,8 @@ export class ApolloTournamentMapper {
       status: tournament.status,
       createdBy: tournament.createdBy.toString(),
       createdAt: tournament.createdAt,
-      updatedAt: tournament.updatedAt
+      updatedAt: tournament.updatedAt,
+      canceledAt: tournament.canceledAt ?? null
     }
   }
 }
