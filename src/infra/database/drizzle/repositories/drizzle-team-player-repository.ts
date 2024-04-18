@@ -37,4 +37,11 @@ export class DrizzleTeamPlayerRepository implements TeamPlayerRepository {
     const data = DrizzleTeamPlayerMapper.toPersistence(teamPlayer)
     await db.insert(teamPlayers).values(data)
   }
+
+  async save (teamPlayer: TeamPlayer): Promise<void> {
+    const data = DrizzleTeamPlayerMapper.toPersistence(teamPlayer)
+    await db.update(teamPlayers).set(data).where(
+      eq(teamPlayers.id, teamPlayer.id.toString())
+    )
+  }
 }

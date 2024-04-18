@@ -8,8 +8,9 @@ export class DrizzleTournamentTeamMapper {
       {
         tournamentId: new UniqueEntityID(raw.tournamentId),
         teamId: new UniqueEntityID(raw.teamId),
-        joinedAt: raw.joinedAt ?? undefined,
-        withdrawAt: raw.withdrawAt ?? undefined
+        withdrawAt: raw.withdrawAt ?? undefined,
+        withdrawReason: raw.withdrawReason ?? undefined,
+        joinedAt: raw.joinedAt ?? undefined
       },
       new UniqueEntityID(raw.id)
     )
@@ -20,8 +21,9 @@ export class DrizzleTournamentTeamMapper {
       id: player.id.toString(),
       tournamentId: player.tournamentId.toString(),
       teamId: player.teamId.toString(),
-      joinedAt: player.joinedAt ?? null,
-      withdrawAt: player.withdrawAt ?? null
+      withdrawAt: player.withdrawAt ?? null,
+      withdrawReason: player.withdrawReason ?? null,
+      joinedAt: player.joinedAt ?? null
     }
   }
 }

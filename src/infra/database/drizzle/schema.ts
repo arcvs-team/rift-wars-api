@@ -89,8 +89,9 @@ export const tournamentTeams = pgTable('tournament_teams', {
   id: uuid('id').primaryKey(),
   tournamentId: uuid('tournament_id').notNull().references(() => tournaments.id),
   teamId: uuid('team_id').notNull().references(() => teams.id),
-  joinedAt: timestamp('joined_at').defaultNow(),
-  withdrawAt: timestamp('withdraw_at')
+  withdrawAt: timestamp('withdraw_at'),
+  withdrawReason: text('withdraw_reason', { enum: ['team_left_tournament', 'player_left_team'] }),
+  joinedAt: timestamp('joined_at').defaultNow()
 })
 export type DrizzleTournamentTeam = typeof tournamentTeams.$inferSelect
 

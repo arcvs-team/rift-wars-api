@@ -15,4 +15,9 @@ export class InMemoryTeamPlayerRepository implements TeamPlayerRepository {
   async create (teamPlayer: TeamPlayer): Promise<void> {
     this.items.push(teamPlayer)
   }
+
+  async save (teamPlayer: TeamPlayer): Promise<void> {
+    const teamPlayerIndex = this.items.findIndex((item) => item.id.toString() === teamPlayer.id.toString())
+    this.items[teamPlayerIndex] = teamPlayer
+  }
 }

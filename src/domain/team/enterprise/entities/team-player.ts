@@ -36,6 +36,11 @@ export class TeamPlayer extends Entity<TeamPlayerAttributes> {
     return this.attributes.removedBy
   }
 
+  leaveTeam () {
+    this.attributes.removedAt = new Date()
+    this.attributes.removedBy = this.attributes.playerId
+  }
+
   static create (
     attributes: Optional<TeamPlayerAttributes, 'joinedAt' | 'removedAt' | 'removedBy'>,
     id?: UniqueEntityID

@@ -5,8 +5,9 @@ import { type Optional } from '@/core/types/optional'
 export interface TournamentTeamAttributes {
   tournamentId: UniqueEntityID
   teamId: UniqueEntityID
-  joinedAt?: Date
   withdrawAt?: Date
+  withdrawReason?: 'team_left_tournament' | 'player_left_team'
+  joinedAt?: Date
 }
 
 export class TournamentTeam extends Entity<TournamentTeamAttributes> {
@@ -18,16 +19,20 @@ export class TournamentTeam extends Entity<TournamentTeamAttributes> {
     return this.attributes.teamId
   }
 
-  get joinedAt () {
-    return this.attributes.joinedAt
-  }
-
   get withdrawAt () {
     return this.attributes.withdrawAt
   }
 
+  get withdrawReason () {
+    return this.attributes.withdrawReason
+  }
+
+  get joinedAt () {
+    return this.attributes.joinedAt
+  }
+
   static create (
-    attributes: Optional<TournamentTeamAttributes, 'joinedAt' | 'withdrawAt'>,
+    attributes: Optional<TournamentTeamAttributes, 'joinedAt'>,
     id?: UniqueEntityID
   ) {
     const tournamentTeam = new TournamentTeam(
