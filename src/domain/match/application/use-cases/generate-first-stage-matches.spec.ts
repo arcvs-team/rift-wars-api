@@ -14,6 +14,7 @@ import { TournamentHaveStagesError } from './errors/tournament-have-stages.error
 import { FakeRiotApiServices } from 'test/riot/fake-riot-api-services'
 import { InMemoryTeamPlayerRepository } from 'test/repositories/in-memory-team-player-repository'
 import { InMemoryPlayerRepository } from 'test/repositories/in-memory-player-repository'
+import { makeTournamentTeam } from 'test/factories/make-tournament-team'
 
 describe('generate matches', () => {
   let inMemoryTournamentRepository: InMemoryTournamentRepository
@@ -126,5 +127,24 @@ describe('generate matches', () => {
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(TournamentHaveStagesError)
+  })
+
+  it('should generate the first stage matches', async () => {
+    const tournament = makeTournament({
+      startDate: new Date(),
+      status: 'started'
+    })
+    inMemoryTournamentRepository.create(tournament)
+    const tournamentBlueTeam = makeTournamentTeam({ tournamentId: tournament.id })
+    inMemoryTournamentTeamRepository.create(tournamentBlueTeam)
+    const tournamentRedTeam = makeTournamentTeam({ tournamentId: tournament.id })
+    inMemoryTournamentTeamRepository.create(tournamentRedTeam)
+
+    const result = await sut.execute({ tournamentId: tournament.id.toString() })
+
+    console.log(result)
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryTournamentRepository.items[0].stages).toBe(1)
+    expect(inMemoryMatchRepository.items.length).toBe(1)
   })
 })
