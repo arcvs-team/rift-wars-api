@@ -105,7 +105,7 @@ export class GenerateFirstStageMatchesUseCase implements UseCase {
 
     for (let i = 0; i < shuffledTournamentTeams.length; i += 2) {
       const blueTeamPlayers = await this.teamPlayerRepository.findManyByTeamId(shuffledTournamentTeams[i].teamId.toString())
-      const redTeamPlayers = await this.teamPlayerRepository.findManyByTeamId(shuffledTournamentTeams[i].teamId.toString())
+      const redTeamPlayers = await this.teamPlayerRepository.findManyByTeamId(shuffledTournamentTeams[i + 1].teamId.toString())
       const teamPlayers = blueTeamPlayers.concat(redTeamPlayers)
 
       const playersRiotPuuid: string[] = []

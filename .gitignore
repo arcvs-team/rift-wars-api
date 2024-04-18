@@ -4,5 +4,6 @@ node_modules
 dist
 coverage
 codealike.json
+.vscode
 
 src/infra/graphql/schema.gql
